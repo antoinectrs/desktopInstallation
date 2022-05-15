@@ -1,0 +1,191 @@
+@font-face {
+    font-family: monument-regular;
+    src: url(./font/Mregular.otf);
+}
+
+@font-face {
+    font-family: monument-bold;
+    src: url(./font/Multrabold.otf);
+}
+
+
+
+body {
+    margin: 0;
+}
+
+input[type=range][orient=vertical] {
+    writing-mode: bt-lr;
+    /* IE */
+    -webkit-appearance: slider-vertical;
+    /* WebKit */
+    width: 8px;
+    height: 175px;
+    padding: 0 5px;
+}
+
+#emoji__compass {
+    z-index: 10000;
+    width: 100%!important;
+    height: 100%!important;
+    background: radial-gradient(#005cff, white)!important;
+    position: fixed;
+}
+
+.parent .case {
+    /* border-bottom: solid 1px;
+    border-right: solid 1px; */
+    display: inherit;
+    /* color:#070071 */
+}
+
+.parent .case p {
+    font-size: 3em;
+    font-family: monument-regular;
+    text-align: center;
+    text-transform: capitalize;
+    position: absolute;
+    z-index: 10;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.carte {
+    background: #6b6bff;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.div2 {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.div3 {
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.div4 {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.div5 {
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+.div6 {
+    grid-area: 2 / 3 / 3 / 4;
+}
+
+.div7 {
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+.div8 {
+    grid-area: 3 / 2 / 4 / 3;
+}
+
+.div9 {
+    grid-area: 3 / 3 / 4 / 4;
+}
+
+.div10 {
+    grid-area: 4 / 1 / 5 / 2;
+}
+
+.div11 {
+    grid-area: 4 / 2 / 5 / 3;
+}
+
+.div12 {
+    grid-area: 4 / 3 / 5 / 4;
+}
+
+.color {
+    width: auto;
+    height: 100%;
+    /* filter: blur(42px); */
+}
+
+/* DEV */
+
+#reverb.on .color {
+    background: #070071
+}
+
+#filter.on .color {
+    background: #6b6bff
+}
+
+#volume.on .color {
+    background: #00d4ff
+}
+
+/* #binaural.on .color {
+    background: #00ff88
+} */
+
+#drum.on .color {
+    background: #00d4ff
+}
+
+#bass.on .color {
+    background: #0091ff
+}
+#lead.on .color {
+    background: #0051ff
+}
+.on p {
+    color: white;
+}
+.hard-transition {
+    transition: 0.9s;
+}
+/* canvas */
+#gameCanvas {
+    width: 100%;
+    height: 100vh;
+    filter: blur(100px)contrast(72.1)saturate(0.6);
+}
+
+/* MAP */
+.leaflet-layer {
+    opacity: 0.2 !important;    
+    display: none;
+}
+path.leaflet-interactive {
+    stroke: blue !important;
+    stroke-width: 12px; 
+    /* filter: blur(20px) contrast(9.8); */
+    /* stroke-width:   332px; */ 
+}
+path.leaflet-interactive:last-child {
+    display: none;
+}
+#map {
+    /* filter: blur(8px) contrast(1.8); */
+    /* filter: blur(173px) contrast(5.5); */
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    z-index: 1000;
+    /* pointer-events: none; */
+    /* opacity: 0.001; */
+}
+.leaflet-control-container{
+    display: none;
+}
+#conteneur {
+    display: flex;
+    height: auto;
+    width: 100%;
+    height: 50vh;
+}
