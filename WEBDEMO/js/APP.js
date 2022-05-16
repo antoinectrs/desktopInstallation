@@ -2,7 +2,7 @@ class APP {
     constructor() {
         this.myMap;
         this.point = [];
-        this.musicList = ["perc"]
+        this.musicList = ["deepS"]
         this.setUp();
         this.dom();
     }
@@ -13,7 +13,9 @@ class APP {
        
     }
     dom(target="button", trigger='click'){
+        // document.querySelector(target).addEventListener(trigger, (event) => {this.point.forEach(element => {element.sample.playSample(0)})});
         document.querySelector(target).addEventListener(trigger, (event) => {this.point.forEach(element => {element.sample.playSample(0)})});
+        // this.myMap.
         //CHANGE O after
     }
     initPoint(musicList) {
