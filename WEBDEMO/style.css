@@ -8,7 +8,18 @@
     src: url(./font/Multrabold.otf);
 }
 
-
+.circle {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    background: white;
+    border-radius: 80%;
+    backface-visibility: hidden;
+    z-index: 90000;
+  }
 
 body {
     margin: 0;

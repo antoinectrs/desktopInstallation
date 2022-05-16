@@ -10,7 +10,7 @@ class Sample {
 
         this.onRoad = false;
         this.filterNode;
-        this.freqFilter = 100;
+        this.initFr = 40;
     }
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
@@ -50,17 +50,21 @@ class Sample {
     }
     initFilter(audioNode) {
         audioNode=  this.audio.createBiquadFilter();
-
         //BAND PASS
         // filter.type = "bandpass";
         // filter.frequency.value = 1000;
         // filter.Q.value = 40;
 
         // audioNode.type = "lowshelf";
-        audioNode.frequency.value =  this.freqFilter;
+        // this.filterValue()
+        audioNode.frequency.value =  this.initFr;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
         return audioNode
+    }
+    filterValue(audioNode=this.filterNode){
+
+        audioNode.frequency.value =  1000;
     }
     requestTrack() {
         // load sample

@@ -12,6 +12,7 @@ class MapDebug {
         this.hitBox = [];
         this.route;
         this.inRoute = false;
+        this.idRoute = null;
         // 
     }
     convertToPointPath() {
@@ -21,7 +22,6 @@ class MapDebug {
     }
     convertToPointRoadBox(e) {
         var routing = e.route.coordinates;
-        console.log(e);
         routing.forEach(element => {
             const content = [element.lat, element.lng]
             this.pointRoadBox.push(content);
@@ -37,7 +37,7 @@ class MapDebug {
         boxes.forEach(element => {
             this.hitBox.push(L.rectangle(element, { color: "#ff7800", opacity: 0, weight: 1 }).addTo(this.map));
         });
-        this.listenerArray(this.hitBox);
+        this.listenerArray();
     }
     init() {
         const token = "pk.eyJ1IjoiYW50b2luZTk4IiwiYSI6ImNrMXVxemtrNzBjbTczaXBhb2I3amJ5YncifQ.EqRwzHSuwtW2sp615mvCAQ";
@@ -83,29 +83,14 @@ class MapDebug {
     routeListener() {
             this.route.addEventListener('routeselected', (buffer) => {this.convertToPointRoadBox(buffer)});
     }
-    routerBox() {
-        // var test = [
-        //     [50.5, 30.5],
-        //     [50.4, 30.6],
-        //     [50.3, 30.7]
-        // ];
-        // var distance = 10; // Distance in km
-        console.log(this.pointPath);
-        // console.log(L.RouteBoxer.box(test, 10));
-        var polyline = L.polyline(this.pointRoadBox);
-        const data = polyline.encodePath()
-        let route = new L.Polyline(this.pointRoadBox)
-        var distance = 0.01; // Distance in km
-        var boxes = L.RouteBoxer.box(route, distance);
-
-    }
-    listenerArray(array) {
+    listenerArray(array=this.hitBox) {
         array.forEach((element, index) => {
             element.addEventListener("mouseover", e => {
-                this.inRoute=true;
+                this.idRoute = index;
+                return this.inRoute=true;
             });
             element.addEventListener("mouseout", e => {
-                this.inRoute=false;
+                return this.inRoute=false;;
             });
         });
     }

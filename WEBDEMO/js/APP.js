@@ -11,10 +11,22 @@ class APP {
         this.loadPreset();
         this.initPoint(this.musicList)
         this.dom();
+        this.clickDebug();
+      
     }
-    dom(target="button", trigger='click'){
-        document.querySelector(target).addEventListener(trigger, (event) => {this.point.forEach(element => {element.sample.playSample(0)})});
+    dom(target = "button", trigger = 'click') {
+        document.querySelector(target).addEventListener(trigger, (event) => {
+            this.point.forEach(element => { element.sample.playSample(0) })
+        });
         //CHANGE O after
+    }
+    clickDebug(target = "#map", trigger = 'click') {
+        document.querySelector(target).addEventListener(trigger, (event) => {
+            if(this.myMap.inRoute==true){
+                this.point.forEach(element => { element.sample.filterValue() })
+            }
+            this.mouseVisualisation(event);
+        });
     }
     initPoint(musicList) {
         this.point = musicList.map(function (music) {
@@ -28,10 +40,10 @@ class APP {
         // PARAMS.points[1].sample.playSample(maxIs(mapArray(PARAMS.points))) 
     }
     // loadTrack() {
-        
-        // PARAMS.points.forEach((point) => {
-        //     point.sample.requestTrack();
-        // });
+
+    // PARAMS.points.forEach((point) => {
+    //     point.sample.requestTrack();
+    // });
     // }
     loadData() {
         fetch('../js/data.JSON')
@@ -40,6 +52,7 @@ class APP {
                 const JSdata = data;
                 this.myMap = new MapDebug(JSdata);
                 this.myMap.init();
+
             })
             .catch(error => console.log(error));
     }
@@ -50,5 +63,12 @@ class APP {
                 this.preset = data.tracks;
             })
             .catch(error => console.log(error));
+    }
+    mouseVisualisation(event){
+        const target = document.querySelector("#canvas .circle");
+        target.style.left = event.pageX+"px";
+        target.style.top = event.pageY+"px";
+            // console.log(target.style.left);
+
     }
 }
