@@ -56,7 +56,7 @@ class Sample {
         req.addEventListener('load', (event) => {
             this.createBufferFromData(req.response);
         });
-        req.open('GET', `../examples/sound/urban/${this.path}.mp3`, true);
+        req.open('GET', `../snd/${this.path}.wav`, true);
         req.send();
     }
 
