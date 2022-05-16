@@ -2,20 +2,18 @@ class APP {
     constructor() {
         this.myMap;
         this.point = [];
-        this.musicList = ["deepS"]
+        this.musicList = ["deepS"];
+        this.preset;
         this.setUp();
-        this.dom();
     }
     setUp() {
         this.loadData();
-
+        this.loadPreset();
         this.initPoint(this.musicList)
-       
+        this.dom();
     }
     dom(target="button", trigger='click'){
-        // document.querySelector(target).addEventListener(trigger, (event) => {this.point.forEach(element => {element.sample.playSample(0)})});
         document.querySelector(target).addEventListener(trigger, (event) => {this.point.forEach(element => {element.sample.playSample(0)})});
-        // this.myMap.
         //CHANGE O after
     }
     initPoint(musicList) {
@@ -42,6 +40,14 @@ class APP {
                 const JSdata = data;
                 this.myMap = new MapDebug(JSdata);
                 this.myMap.init();
+            })
+            .catch(error => console.log(error));
+    }
+    loadPreset() {
+        fetch('../js/presets.JSON')
+            .then(response => response.json())
+            .then(data => {
+                this.preset = data.tracks;
             })
             .catch(error => console.log(error));
     }

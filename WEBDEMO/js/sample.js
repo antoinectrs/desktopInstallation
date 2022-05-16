@@ -6,7 +6,11 @@ class Sample {
             this.path = path;
         this.hrtfs = hrtfs;
         // this.decay = 0;
-        this.sampleBuffer; // none functional now 
+        this.sampleBuffer;
+
+        this.onRoad = false;
+        this.filterNode;
+        this.freqFilter = 100;
     }
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
@@ -17,10 +21,9 @@ class Sample {
             this.checkBuffer(buffer)
         });
     }
-    checkBuffer (buffer) {
-        // console.log(`Created newAudioBuffer ${sampleBuffer}`);
-        this.sampleBuffer= buffer;
-        console.log('Ready to play');
+    checkBuffer(buffer) {
+        this.sampleBuffer = buffer;
+        console.log('sample good');
     }
 
     // Create a new source node and play it
@@ -28,26 +31,36 @@ class Sample {
         if (sampleRate === undefined) sampleRate = 1;
         this.hrtf(sampleRate);
 
-        this.binauralFIRNode = new BinauralFIR({
-            audioContext: this.audio
-        });
-        //Set HRTF dataset
+        //  -----------------------------------------               //INIT
+        this.binauralFIRNode = new BinauralFIR({ audioContext: this.audio });
         this.binauralFIRNode.HRTFDataset = this.hrtfs;
-
         let sourceNode = this.audio.createBufferSource();
-        sourceNode.buffer =   this.sampleBuffer;
-        sourceNode.playbackRate.value = sampleRate;
-        sourceNode.connect(this.binauralFIRNode.input);
-        this.binauralFIRNode.connect(this.audio.destination);
-
+        this.filterNode = this.initFilter();
+        // this.filterNode = this.audio.createBiquadFilter();
+        sourceNode.buffer = this.sampleBuffer;
+        sourceNode.playbackRate.value = sampleRate;             //SAMPLE
+        //  -----------------------------------------               //CONNECT
+        sourceNode.connect(this.binauralFIRNode.input);        //BINAU
+        this.binauralFIRNode.connect(this.filterNode);
+        this.filterNode.connect(this.audio.destination);
+        // this.binauralFIRNode.connect(this.audio.destination);  //SOURCE  
         this.binauralFIRNode.setPosition(90, 10, 1);
         sourceNode.loop = true;
-        // console.log(decay);
-      
-        // console.log(decay);
-        sourceNode.start(0,decay);
-        // console.log(sourceNode.buffer);
-        // console.log('Played sample via new AudioBufferSourceNode');
+        sourceNode.start(0, decay);
+    }
+    initFilter(audioNode) {
+        audioNode=  this.audio.createBiquadFilter();
+
+        //BAND PASS
+        // filter.type = "bandpass";
+        // filter.frequency.value = 1000;
+        // filter.Q.value = 40;
+
+        // audioNode.type = "lowshelf";
+        audioNode.frequency.value =  this.freqFilter;
+        // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
+        // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
+        return audioNode
     }
     requestTrack() {
         // load sample

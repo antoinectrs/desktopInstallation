@@ -21,6 +21,7 @@ class MapDebug {
     }
     convertToPointRoadBox(e) {
         var routing = e.route.coordinates;
+        console.log(e);
         routing.forEach(element => {
             const content = [element.lat, element.lng]
             this.pointRoadBox.push(content);
@@ -99,21 +100,11 @@ class MapDebug {
 
     }
     listenerArray(array) {
-        // array.forEach(element => {
-        // console.log(i);
-        // element.addEventListener("mousemove",e => {
-        //     // console.log(event);
-        //     console.log(e);
-        // });
-        // });
         array.forEach((element, index) => {
-            // console.log(index);
             element.addEventListener("mouseover", e => {
-                // console.log(event);
                 this.inRoute=true;
             });
             element.addEventListener("mouseout", e => {
-                // console.log(event);
                 this.inRoute=false;
             });
         });
