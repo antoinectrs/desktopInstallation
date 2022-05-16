@@ -30,7 +30,6 @@ function myLerp(start, end, amt) {
       return new Promise(resolve => { "none" })
       //   requestAnimationFrame(transition);
     } else {
-  
       // return new Promise(resolve => {isLerping('resolved')})
     }
   }
@@ -39,6 +38,31 @@ function myLerp(start, end, amt) {
     let index = 0;
     const result = await transition(index);
   }
+
+
+  function softValue(value,oldValue, newValue,thresold, index = 0) {
+  return new Promise(resolve => {
+    const draw = () => {
+      if (index >= 0.99) {
+        value.filterValue(newValue);
+        resolve("the new value " + newValue)
+      } else {
+        // console.log(index);
+        index += thresold;
+        
+        const dyValue = myLerp(oldValue, newValue, index);
+        value.filterValue(dyValue)
+        requestAnimationFrame(() => draw());
+      }
+    }
+    draw()
+  });
+}
+
+async function render(value,oldValue = 0,newValue=100,thresold) {
+  const render = await softValue(value,oldValue, newValue,thresold);
+  console.log('Message:', render);
+}
   
 
   

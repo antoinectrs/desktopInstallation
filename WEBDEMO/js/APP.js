@@ -20,10 +20,14 @@ class APP {
         });
         //CHANGE O after
     }
-    clickDebug(target = "#map", trigger = 'click') {
+    clickDebug(target = "#map", trigger = 'mousemove') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             if(this.myMap.inRoute==true){
-                this.point.forEach(element => { element.sample.filterValue() })
+               
+                this.point.forEach(element => {
+                  render(element.sample,40,1000,0.002); 
+                    //  element.sample.filterValue()
+                     })
             }
             this.mouseVisualisation(event);
         });
@@ -68,7 +72,5 @@ class APP {
         const target = document.querySelector("#canvas .circle");
         target.style.left = event.pageX+"px";
         target.style.top = event.pageY+"px";
-            // console.log(target.style.left);
-
     }
 }

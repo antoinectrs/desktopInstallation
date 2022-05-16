@@ -10,7 +10,7 @@ class Sample {
 
         this.onRoad = false;
         this.filterNode;
-        this.initFr = 40;
+        this.varFreq = 40;
     }
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
@@ -57,14 +57,14 @@ class Sample {
 
         // audioNode.type = "lowshelf";
         // this.filterValue()
-        audioNode.frequency.value =  this.initFr;
+        audioNode.frequency.value =  this.varFreq;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
         return audioNode
     }
-    filterValue(audioNode=this.filterNode){
-
-        audioNode.frequency.value =  1000;
+    filterValue(value){
+        // console.log(value);
+        this.filterNode.frequency.value = value;
     }
     requestTrack() {
         // load sample

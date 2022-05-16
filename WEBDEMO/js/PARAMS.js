@@ -1,0 +1,5 @@
+let PARAMS = {
+    rack = {
+        filter: []
+    }
+}

@@ -15,10 +15,13 @@
     top: 50%;
     left: 50%;
     margin: -50px 0 0 -50px;
-    background: white;
+    /* background: white; */
+    background: blue;
     border-radius: 80%;
     backface-visibility: hidden;
     z-index: 90000;
+    transform: translate(25px,25px);
+    pointer-events: none;
   }
 
 body {
