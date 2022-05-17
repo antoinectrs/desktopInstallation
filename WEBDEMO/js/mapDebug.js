@@ -38,7 +38,7 @@ class MapDebug {
         boxes.forEach(element => {
             this.hitBox.push(L.rectangle(element, { color: "#ff7800", opacity: 0, weight: 1 }).addTo(this.map));
         });
-        this.listenerArray();
+        // this.listenerArray();
     }
     init() {
         const token = "pk.eyJ1IjoiYW50b2luZTk4IiwiYSI6ImNrMXVxemtrNzBjbTczaXBhb2I3amJ5YncifQ.EqRwzHSuwtW2sp615mvCAQ";
@@ -85,11 +85,11 @@ class MapDebug {
             this.route.addEventListener('routeselected', (buffer) => {this.convertToPointRoadBox(buffer)});
     }
     listenerArray(array=this.hitBox) {
+       
         array.forEach((element, index) => {
             element.addEventListener("mouseover", e => {
+                console.log("onsode");
                 this.idRoute = index;
-                this.change =  !this.change;
-                console.log(this.change);
                 return this.inRoute=true;
             });
             element.addEventListener("mouseout", e => {

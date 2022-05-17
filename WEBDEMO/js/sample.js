@@ -74,17 +74,17 @@ class Sample {
         this.filterNode.frequency.value = value;
     }
     softValue(newValue, index = 0) {
-        if (this.renderStatut == false ) {
+        // if (this.renderStatut == false ) {
             return new Promise(resolve => {
                 const draw = () => {
                     // console.log(index);
 
                     if (index >= 0.99) {
-                        this.renderStatut = false;
+                        // this.renderStatut = false;
                         this.filterValue(newValue);
                         resolve("the new value " + newValue)
                     } else {
-                        this.renderStatut = true;
+                        // this.renderStatut = true;
                         index += this.thresholdLerp;
                         this.actual = Math.round(myLerp(this.actual, newValue, index));
                         this.filterValue(this.actual)
@@ -93,7 +93,7 @@ class Sample {
                 }
                 draw()
             });
-        }
+        // }
     }
     async render(newValue) {
         const render = await this.softValue(newValue);
