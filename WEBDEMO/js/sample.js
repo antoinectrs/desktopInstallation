@@ -11,6 +11,10 @@ class Sample {
         this.onRoad = false;
         this.filterNode;
         this.varFreq = 40;
+        this.variationRoute;
+    }
+    initVariationRoute(value){
+        this.variationRoute=value;
     }
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
@@ -25,7 +29,6 @@ class Sample {
         this.sampleBuffer = buffer;
         console.log('sample good');
     }
-
     // Create a new source node and play it
     playSample(decay, e, sampleRate) {
         if (sampleRate === undefined) sampleRate = 1;

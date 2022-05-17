@@ -38,8 +38,6 @@ function myLerp(start, end, amt) {
     let index = 0;
     const result = await transition(index);
   }
-
-
   function softValue(value,oldValue, newValue,thresold, index = 0) {
   return new Promise(resolve => {
     const draw = () => {
