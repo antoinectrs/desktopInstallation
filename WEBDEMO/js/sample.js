@@ -8,12 +8,16 @@ class Sample {
         this.sampleBuffer;
 
         this.onRoad = false;
-        this.filterNode;
-        this.varFreq = 40;
+        this.rack = {
+            filter:{
+                varFreq:40,
+                filterNode:null,
+                actual:0,
+            }
+        }
         this.variationRoute;
 
         this.thresholdLerp = 0.004;
-        this.actual = 0;
         this.renderStatut = false;
     }
     initVariationRoute(value) {
@@ -41,14 +45,14 @@ class Sample {
         this.binauralFIRNode = new BinauralFIR({ audioContext: this.audio });
         this.binauralFIRNode.HRTFDataset = this.hrtfs;
         let sourceNode = this.audio.createBufferSource();
-        this.filterNode = this.initFilter();
-        // this.filterNode = this.audio.createBiquadFilter();
+         this.rack.filter.filterNode = this.initFilter();
+        //  this.rack.filter.filterNode = this.audio.createBiquadFilter();
         sourceNode.buffer = this.sampleBuffer;
         sourceNode.playbackRate.value = sampleRate;             //SAMPLE
         //  -----------------------------------------               //CONNECT
         sourceNode.connect(this.binauralFIRNode.input);        //BINAU
-        this.binauralFIRNode.connect(this.filterNode);
-        this.filterNode.connect(this.audio.destination);
+        this.binauralFIRNode.connect( this.rack.filter.filterNode);
+         this.rack.filter.filterNode.connect(this.audio.destination);
         // this.binauralFIRNode.connect(this.audio.destination);  //SOURCE  
         this.binauralFIRNode.setPosition(90, 10, 1);
         sourceNode.loop = true;
@@ -63,32 +67,34 @@ class Sample {
 
         // audioNode.type = "lowshelf";
         // this.filterValue()
-        audioNode.frequency.value = this.varFreq;
+        audioNode.frequency.value = this.rack.filter.varFreq;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
         return audioNode
     }
     filterValue(value) {
-        this.filterNode.frequency.value = value;
+         this.rack.filter.filterNode.frequency.value = value;
     }
-    softValue(newValue, index = 0) {
+    softValue(effect, index = 0) {
         return new Promise(resolve => {
             const draw = () => {
                 if (index >= 0.99) {
-                    this.filterValue(newValue);
-                    resolve("the new value " + newValue)
+                    this.filterValue(effect);
+                    resolve("the new value " + effect)
                 } else {
                     index += this.thresholdLerp;
-                    this.actual = Math.round(myLerp(this.actual, newValue, index));
-                    this.filterValue(this.actual)
+                    this.rack.filter.actual = Math.round(myLerp(this.rack.filter.actual, effect, index));
+                    this.filterValue(this.rack.filter.actual)
                     requestAnimationFrame(() => draw());
                 }
             }
             draw()
         });
     }
-    async render(newValue) {
-        const render = await this.softValue(newValue);
+    async render(eFilter,eVolume) {
+         this.rack.filter.filterNode.frequency.value
+        const render = await this.softValue(eFilter);
+        const render1 = await this.softValue(eVolume);
         // console.log('Message:', render);
     }
     requestTrack() {

@@ -26,24 +26,30 @@ class APP {
     }
     checkRoad(myMap = this.myMap) {
         myMap.hitBox.forEach((element, index) => {
-
+            const boxIndex = index;
             element.addEventListener("mouseover", e => {
                 //MAP
-                const scale = Math.round(mapRange(index, 0,  myMap.hitBox.length, 0, 10));
-                
-                console.log(scale);
+
                 //SOUND
-                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(5000) })
+                this.point.forEach((element, index) => {
+                    if (element.sample.audio.state != "suspended") {
+                        const target = this.preset[index].volume;
+                        const scale = Math.round(mapRange(boxIndex, 0, myMap.hitBox.length, 0, target.length));
+                        const preset = target[scale]
+                        console.log(preset);
+                        element.sample.render(5000,10);
+                    }
+                }
+                )
                 this.idRoute = index;
             });
             element.addEventListener("mouseout", e => {
-                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(200) })
+                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(200,0) })
             });
         });
     }
 
     initPoint(musicList, preset) {
-        console.log(preset);
         this.point = musicList.map(function (music, preset) {
             return { "sample": new Sample(music) }// "graphic": new Circle(),// "space": new Space(2),
         });
@@ -51,7 +57,7 @@ class APP {
         this.point.forEach(element => {
             element.sample.requestTrack()
         });
-        console.log(this.preset);
+
     }
     loadData() {
         fetch('../js/data.JSON')
