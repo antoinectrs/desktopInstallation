@@ -5,7 +5,6 @@ class Sample {
             this.binauralFIRNode = null,
             this.path = path;
         this.hrtfs = hrtfs;
-        // this.decay = 0;
         this.sampleBuffer;
 
         this.onRoad = false;
@@ -70,37 +69,29 @@ class Sample {
         return audioNode
     }
     filterValue(value) {
-        // console.log(value);
         this.filterNode.frequency.value = value;
     }
     softValue(newValue, index = 0) {
-        // if (this.renderStatut == false ) {
-            return new Promise(resolve => {
-                const draw = () => {
-                    // console.log(index);
-
-                    if (index >= 0.99) {
-                        // this.renderStatut = false;
-                        this.filterValue(newValue);
-                        resolve("the new value " + newValue)
-                    } else {
-                        // this.renderStatut = true;
-                        index += this.thresholdLerp;
-                        this.actual = Math.round(myLerp(this.actual, newValue, index));
-                        this.filterValue(this.actual)
-                        requestAnimationFrame(() => draw());
-                    }
+        return new Promise(resolve => {
+            const draw = () => {
+                if (index >= 0.99) {
+                    this.filterValue(newValue);
+                    resolve("the new value " + newValue)
+                } else {
+                    index += this.thresholdLerp;
+                    this.actual = Math.round(myLerp(this.actual, newValue, index));
+                    this.filterValue(this.actual)
+                    requestAnimationFrame(() => draw());
                 }
-                draw()
-            });
-        // }
+            }
+            draw()
+        });
     }
     async render(newValue) {
         const render = await this.softValue(newValue);
         console.log('Message:', render);
     }
     requestTrack() {
-        // load sample
         let req = new XMLHttpRequest();
         req.responseType = "arraybuffer";
         req.addEventListener('load', (event) => {

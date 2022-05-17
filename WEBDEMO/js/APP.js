@@ -18,42 +18,20 @@ class APP {
             this.point.forEach(element => { element.sample.playSample(0) })
             this.checkRoad();
         });
-        //CHANGE O after
     }
     clickDebug(target = "#map", trigger = 'mousemove') {
         document.querySelector(target).addEventListener(trigger, (event) => {
-
             this.mouseVisualisation(event);
         });
     }
     checkRoad(myMap = this.myMap) {
-        // if (this.myMap.inRoute == true) {
-        //     this.point.forEach(element => {
-        //         if(element.sample.audio.state!="suspended")element.sample.render(1000);
-        //     })
-        // } else if(this.myMap.inRoute == false) {
-        //     this.point.forEach(element => {
-        //         console.log(element.sample.audio.state);
-        //         if(element.sample.audio.state!="suspended" && element.sample.audio.actual!=0)element.sample.render(0);
-        //     })
-        // 
-        // console.log(myMap);
-        // const mapExport = myMap;
-        myMap.hitBox.forEach((element, index, myMap) => {
+        myMap.hitBox.forEach((element, index) => {
             element.addEventListener("mouseover", e => {
-                // console.log(mapExport);
-                this.point.forEach(element => {
-                    if (element.sample.audio.state != "suspended") element.sample.render(1000);
-                })
-                // if(mapExport.sample.audio.state!="suspended")mapExport.sample.render(1000);
+                this.point.forEach(element => {if (element.sample.audio.state != "suspended") element.sample.render(1000)})
                 this.idRoute = index;
-                return this.inRoute = true;
             });
             element.addEventListener("mouseout", e => {
-                this.point.forEach(element => {
-                    if (element.sample.audio.state != "suspended") element.sample.render(0);
-                })
-                return this.inRoute = false;
+                this.point.forEach(element => {if (element.sample.audio.state != "suspended") element.sample.render(0)})
             });
         });
     }
@@ -68,14 +46,7 @@ class APP {
             element.sample.requestTrack()
         });
         console.log(this.preset);
-        // PARAMS.points[1].sample.playSample(maxIs(mapArray(PARAMS.points))) 
     }
-    // loadTrack() {
-
-    // PARAMS.points.forEach((point) => {
-    //     point.sample.requestTrack();
-    // });
-    // }
     loadData() {
         fetch('../js/data.JSON')
             .then(response => response.json())
@@ -83,7 +54,6 @@ class APP {
                 const JSdata = data;
                 this.myMap = new MapDebug(JSdata);
                 this.myMap.init();
-                // this.checkRoad();
             })
             .catch(error => console.log(error));
     }
