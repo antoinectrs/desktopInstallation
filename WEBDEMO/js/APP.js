@@ -25,15 +25,17 @@ class APP {
             if (this.myMap.inRoute == true) {
                 this.point.forEach(element => {
                     if(element.sample.audio.state!="suspended")
-                    element.sample.render(5000);
+                    element.sample.render(1000);
                     // render(element.sample, 40, 1000, 0.002);
                 })
             } else if(this.myMap.inRoute == false) {
                 // console.log("Inside");
                 this.point.forEach(element => {
                     console.log(element.sample.audio.state);
-                    if(element.sample.audio.state!="suspended")
-                    element.sample.render(0);
+                    if(element.sample.audio.state!="suspended" && element.sample.audio.actual!=0){
+                        element.sample.render(0);
+                    }
+                  
                     // render(element.sample, 1000, 40, 0.002);
                 })
             }

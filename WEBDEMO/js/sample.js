@@ -13,14 +13,12 @@ class Sample {
         this.varFreq = 40;
         this.variationRoute;
 
-        this.thresholdLerp =  0.002;
-        this.low = 100;
-        this.high = 5000;
-        this.actual=0;
-
+        this.thresholdLerp = 0.002;
+        this.actual = 0;
+        this.renderStatut = false;
     }
-    initVariationRoute(value){
-        this.variationRoute=value;
+    initVariationRoute(value) {
+        this.variationRoute = value;
     }
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
@@ -58,7 +56,7 @@ class Sample {
         sourceNode.start(0, decay);
     }
     initFilter(audioNode) {
-        audioNode=  this.audio.createBiquadFilter();
+        audioNode = this.audio.createBiquadFilter();
         //BAND PASS
         // filter.type = "bandpass";
         // filter.frequency.value = 1000;
@@ -66,37 +64,41 @@ class Sample {
 
         // audioNode.type = "lowshelf";
         // this.filterValue()
-        audioNode.frequency.value =  this.varFreq;
+        audioNode.frequency.value = this.varFreq;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
         return audioNode
     }
-    filterValue(value){
+    filterValue(value) {
         // console.log(value);
         this.filterNode.frequency.value = value;
     }
-    softValue(newValue,index = 0) {
-        console.log(index);
-        return new Promise(resolve => {
-          const draw = () => {
-            if (index >= 0.99) {
-              this.filterValue(newValue);
-              resolve("the new value " + newValue)
-            } else {
-            
-              index +=  this.thresholdLerp;
-              this.actual = myLerp(this.actual, newValue, index);
-              this.filterValue( this.actual)
-              requestAnimationFrame(() => draw());
-            }
-          }
-          draw()
-        });
-      }
-      async render(newValue) {
+    softValue(newValue, index = 0) {
+        if (this.renderStatut == false ) {
+            return new Promise(resolve => {
+                const draw = () => {
+                    // console.log(index);
+
+                    if (index >= 0.99) {
+                        this.renderStatut = false;
+                        this.filterValue(newValue);
+                        resolve("the new value " + newValue)
+                    } else {
+                        this.renderStatut = true;
+                        index += this.thresholdLerp;
+                        this.actual = Math.round(myLerp(this.actual, newValue, index));
+                        this.filterValue(this.actual)
+                        requestAnimationFrame(() => draw());
+                    }
+                }
+                draw()
+            });
+        }
+    }
+    async render(newValue) {
         const render = await this.softValue(newValue);
         console.log('Message:', render);
-      }
+    }
     requestTrack() {
         // load sample
         let req = new XMLHttpRequest();

@@ -13,6 +13,7 @@ class MapDebug {
         this.route;
         this.inRoute = false;
         this.idRoute = null;
+        this.change=false;
         // 
     }
     convertToPointPath() {
@@ -87,6 +88,8 @@ class MapDebug {
         array.forEach((element, index) => {
             element.addEventListener("mouseover", e => {
                 this.idRoute = index;
+                this.change =  !this.change;
+                console.log(this.change);
                 return this.inRoute=true;
             });
             element.addEventListener("mouseout", e => {
