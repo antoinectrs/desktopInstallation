@@ -12,6 +12,12 @@ class Sample {
         this.filterNode;
         this.varFreq = 40;
         this.variationRoute;
+
+        this.thresholdLerp =  0.002;
+        this.low = 100;
+        this.high = 5000;
+        this.actual=0;
+
     }
     initVariationRoute(value){
         this.variationRoute=value;
@@ -69,6 +75,28 @@ class Sample {
         // console.log(value);
         this.filterNode.frequency.value = value;
     }
+    softValue(newValue,index = 0) {
+        console.log(index);
+        return new Promise(resolve => {
+          const draw = () => {
+            if (index >= 0.99) {
+              this.filterValue(newValue);
+              resolve("the new value " + newValue)
+            } else {
+            
+              index +=  this.thresholdLerp;
+              this.actual = myLerp(this.actual, newValue, index);
+              this.filterValue( this.actual)
+              requestAnimationFrame(() => draw());
+            }
+          }
+          draw()
+        });
+      }
+      async render(newValue) {
+        const render = await this.softValue(newValue);
+        console.log('Message:', render);
+      }
     requestTrack() {
         // load sample
         let req = new XMLHttpRequest();
@@ -79,7 +107,6 @@ class Sample {
         req.open('GET', `../snd/${this.path}.wav`, true);
         req.send();
     }
-
     hrtf(sampleRate) {
         for (var i = 0; i < this.hrtfs.length; i++) {
             var buffer = this.audio.createBuffer(2, 512, this.audio.sampleRate);
