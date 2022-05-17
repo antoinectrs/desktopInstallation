@@ -12,7 +12,7 @@ class Sample {
         this.varFreq = 40;
         this.variationRoute;
 
-        this.thresholdLerp = 0.002;
+        this.thresholdLerp = 0.004;
         this.actual = 0;
         this.renderStatut = false;
     }
@@ -89,7 +89,7 @@ class Sample {
     }
     async render(newValue) {
         const render = await this.softValue(newValue);
-        console.log('Message:', render);
+        // console.log('Message:', render);
     }
     requestTrack() {
         let req = new XMLHttpRequest();

@@ -22,6 +22,7 @@ class MapDebug {
         });
     }
     convertToPointRoadBox(e) {
+        console.log(e);
         var routing = e.route.coordinates;
         routing.forEach(element => {
             const content = [element.lat, element.lng]
@@ -37,7 +38,7 @@ class MapDebug {
         var boxes = L.RouteBoxer.box(route, distance);
         boxes.forEach(element => {
             this.hitBox.push(L.rectangle(element, { color: "#ff7800", opacity: 0, weight: 1 }).addTo(this.map));
-        });
+        });   
         // this.listenerArray();
     }
     init() {
@@ -84,19 +85,19 @@ class MapDebug {
     routeListener() {
             this.route.addEventListener('routeselected', (buffer) => {this.convertToPointRoadBox(buffer)});
     }
-    listenerArray(array=this.hitBox) {
+    // listenerArray(array=this.hitBox) {
        
-        array.forEach((element, index) => {
-            element.addEventListener("mouseover", e => {
-                console.log("onsode");
-                this.idRoute = index;
-                return this.inRoute=true;
-            });
-            element.addEventListener("mouseout", e => {
-                return this.inRoute=false;;
-            });
-        });
-    }
+        // array.forEach((element, index) => {
+        //     element.addEventListener("mouseover", e => {
+        //         console.log("onsode");
+        //         this.idRoute = index;
+        //         return this.inRoute=true;
+        //     });
+        //     element.addEventListener("mouseout", e => {
+        //         return this.inRoute=false;;
+        //     });
+        // });
+    // }
 
 }
 

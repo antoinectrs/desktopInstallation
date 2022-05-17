@@ -26,12 +26,18 @@ class APP {
     }
     checkRoad(myMap = this.myMap) {
         myMap.hitBox.forEach((element, index) => {
+
             element.addEventListener("mouseover", e => {
-                this.point.forEach(element => {if (element.sample.audio.state != "suspended") element.sample.render(1000)})
+                //MAP
+                const scale = Math.round(mapRange(index, 0,  myMap.hitBox.length, 0, 10));
+                
+                console.log(scale);
+                //SOUND
+                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(5000) })
                 this.idRoute = index;
             });
             element.addEventListener("mouseout", e => {
-                this.point.forEach(element => {if (element.sample.audio.state != "suspended") element.sample.render(0)})
+                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(200) })
             });
         });
     }
