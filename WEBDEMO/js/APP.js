@@ -1,5 +1,7 @@
 class APP {
-    constructor() {
+    constructor(statut) {
+        this.statut= statut;
+        console.log("vous êtes sur "+ this.statut);
         this.myMap;
         this.point = [];
         this.musicList = ["lead","organ","perc"];
@@ -12,6 +14,9 @@ class APP {
         this.initPoint(this.musicList, this.preset)
         this.dom();
         this.clickDebug();
+        if(this.statut=="mobile"){
+            this.myCompass = new myCompass();
+        }
     }
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {

@@ -247,3 +247,16 @@ path.leaflet-interactive:last-child {
     width: 100%;
     height: 50vh;
 }
+
+
+
+
+
+/* MOBILE */
+#emoji__compass {
+    z-index: 10000;
+    width: 100%!important;
+    height: 100%!important;
+    background: radial-gradient(#005cff, white)!important;
+    position: fixed;
+}
