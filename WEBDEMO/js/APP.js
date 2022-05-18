@@ -1,10 +1,10 @@
 class APP {
     constructor(statut) {
-        this.statut= statut;
-        console.log("vous êtes sur "+ this.statut);
+        this.statut = statut;
+        console.log("vous êtes sur " + this.statut);
         this.myMap;
         this.point = [];
-        this.musicList = ["lead","organ","perc"];
+        this.musicList = ["lead", "organ", "perc"];
         this.preset;
         this.setUp();
     }
@@ -14,16 +14,29 @@ class APP {
         this.initPoint(this.musicList, this.preset)
         this.dom();
         this.clickDebug();
-        if(this.statut=="mobile"){
+        if (this.statut == "mobile") {
             this.myCompass = new myCompass();
+            this.listenMyCompass(this.myCompass);
         }
+    }
+    listenMyCompass(compass) {
+        const search = () => {
+            setTimeout(() => {
+                // console.log(this.myCompass.permissionGranted );
+                // if(this.myCompass.permissionGranted == true){
+                    console.log(  this.myCompass.compassLoad());
+                // }
+                requestAnimationFrame(search)
+            }, 1000 / 15);
+        }
+        search();
     }
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
-            this.point.forEach((element,index) => {
+            this.point.forEach((element, index) => {
                 element.sample.playSample(0);
-                element.sample.initOrientation(this.preset[index].binaural); 
-                 })
+                element.sample.initOrientation(this.preset[index].binaural);
+            })
             this.checkRoad();
         });
     }
@@ -45,14 +58,14 @@ class APP {
                         const scale = Math.round(mapRange(boxIndex, 0, myMap.hitBox.length, 0, target.length));
                         const preset = target[scale]
                         // console.log(preset);
-                        element.sample.render(preset,1);
+                        element.sample.render(preset, 1);
                     }
                 }
                 )
                 this.idRoute = index;
             });
             element.addEventListener("mouseout", e => {
-                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0,0) })
+                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0, 0) })
             });
         });
     }

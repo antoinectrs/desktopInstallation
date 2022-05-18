@@ -2,35 +2,15 @@ class myCompass {
     constructor() {
         this.myCompass = new Compass();
         this.method = null;
+        this.myOrientation = null;
+        this.accepted = false;
         this.myCompass.init(function (method) {
             console.log('Compass heading by ' + method);
         });
-        this.waitCompass();
-        //   this.myCompass.watch(function (heading) {
-        //     console.log(heading);
-        //     });
     }
     compassLoad() {
-
-    }
-    waitCompass() {
-        // const draw = () => {
-        //     console.log(this.myCompass.permissionGranted);
-        //     if (this.myCompass.permissionGranted == true)
-        //         return this.compassLoad()
-        //     requestAnimationFrame(() => draw());
-        // }
-        // draw()
-        const draw = () => {
-            setTimeout(function () {
-                console.log("inside");
-                requestAnimationFrame(draw);
-
-                // ... Code for Drawing the Frame ...
-
-            }, 1000 / 2);
-        }
-        draw();
+        if (this.myCompass.permissionGranted)
+            return this.myCompass.getBearingToNorth();
     }
     // });
     // drawMyCompass(buffer){
