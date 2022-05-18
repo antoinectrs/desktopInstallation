@@ -36,7 +36,7 @@ class APP {
                         const target = this.preset[index].volume;
                         const scale = Math.round(mapRange(boxIndex, 0, myMap.hitBox.length, 0, target.length));
                         const preset = target[scale]
-                        console.log(preset);
+                        // console.log(preset);
                         element.sample.render(preset,1);
                     }
                 }

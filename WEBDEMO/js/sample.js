@@ -86,14 +86,17 @@ class Sample {
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
     }
     softValue(fxTarget, fxTemp, fxType, index = 0) {
+        console.log(fxTemp);
          new Promise(resolve => {
             const draw = () => {
                 // console.log(fxTarget, fxTemp, fxType);
                 if (index >= 0.99) {
                     fxType.value = fxTarget
+                    this.rack.filter.actual =   fxTarget;
                     // resolve("the new value " + effect);
                 } else {
                     index += this.thresholdLerp;
+                  this.rack.filter.actual =   fxTemp;
                     fxTemp = Math.round(myLerp(fxTemp, fxTarget, index));
                     // fxType.value =fxTemp
                     fxType.value = fxTemp
