@@ -2,7 +2,7 @@ class APP {
     constructor() {
         this.myMap;
         this.point = [];
-        this.musicList = ["deepS"];
+        this.musicList = ["lead","organ","perc"];
         this.preset;
         this.setUp();
     }
