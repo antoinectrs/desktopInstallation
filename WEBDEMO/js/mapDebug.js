@@ -69,7 +69,7 @@ class MapDebug {
     control() {
        this.route = L.Routing.control({
             routeWhileDragging: false,
-            // createMarker: function() { return null; },
+            createMarker: function() { return null; },
             geocoder: L.Control.Geocoder.nominatim(),
             router: new L.Routing.osrmv1({
                 language: "fr",

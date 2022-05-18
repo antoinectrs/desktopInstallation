@@ -7,6 +7,10 @@
     font-family: monument-bold;
     src: url(./font/Multrabold.otf);
 }
+@font-face {
+    font-family: selfMo;
+    src: url(./font/self.otf);
+}
 
 .circle {
     position: absolute;
@@ -22,7 +26,7 @@
     /* background: blue; */
     border-radius: 80%;
     backface-visibility: hidden;
-    z-index: 90000;
+    z-index: 80000;
     transform: translate(37.5px,37.5px);
     pointer-events: none;
     backdrop-filter: blur(65px);
@@ -34,9 +38,20 @@ body {
 
 }
 button[type=button] {
-    z-index: 2000;
-    height: 40px;
-    width: 40px;
+    z-index: 900000;
+    height: 50px;
+    width: 75px;
+    background: white;
+    border:solid 1px grey;
+    background: none;
+    margin:10px;
+    font-family: selfMo;
+    border-radius: 100px;
+}
+button:focus{
+    border:solid 1px rgb(21, 0, 255);
+    color:rgb(21, 0, 255);
+    /* background-color:rgb(21, 0, 255); */
 }
 
 input[type=range][orient=vertical] {
@@ -195,9 +210,12 @@ path.leaflet-interactive {
 path.leaflet-interactive:last-child {
     display: none;
 }
+.leaflet-pane{
+    filter: blur(5px) contrast(1.2);
+}
 #map {
     cursor: none;
-    filter: blur(5px) contrast(1.2);
+   
     /* filter: blur(173px) contrast(5.5); */
     height: 100vh;
     width: 100vw;
