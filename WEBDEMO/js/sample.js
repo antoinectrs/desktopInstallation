@@ -13,6 +13,11 @@ class Sample {
                 varFreq:40,
                 filterNode:null,
                 actual:0,
+            },
+            volume:{
+                // varFreq:40,
+                // filterNode:null,
+                actual:0,
             }
         }
         this.variationRoute;
@@ -66,25 +71,25 @@ class Sample {
         // filter.Q.value = 40;
 
         // audioNode.type = "lowshelf";
-        // this.filterValue()
         audioNode.frequency.value = this.rack.filter.varFreq;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
         return audioNode
     }
-    filterValue(value) {
-         this.rack.filter.filterNode.frequency.value = value;
-    }
-    softValue(effect, index = 0) {
+    softValue(fxTarget,fxTemp,fxType, index = 0) {
+        // console.log(fxType.filterNode.frequency);
         return new Promise(resolve => {
             const draw = () => {
+             
                 if (index >= 0.99) {
-                    this.filterValue(effect);
-                    resolve("the new value " + effect)
+                    fxType.value =fxTarget
+                    // resolve("the new value " + effect);
                 } else {
                     index += this.thresholdLerp;
-                    this.rack.filter.actual = Math.round(myLerp(this.rack.filter.actual, effect, index));
-                    this.filterValue(this.rack.filter.actual)
+                    fxTemp = Math.round(myLerp(fxTemp, fxTarget, index));
+                    // fxType.value =fxTemp
+                    fxType.value  =fxTemp
+                    // console.log(fxTemp);
                     requestAnimationFrame(() => draw());
                 }
             }
@@ -92,9 +97,9 @@ class Sample {
         });
     }
     async render(eFilter,eVolume) {
-         this.rack.filter.filterNode.frequency.value
-        const render = await this.softValue(eFilter);
-        const render1 = await this.softValue(eVolume);
+                                                // fxTarget fxTemp                  fxType  
+        const filterRender = await this.softValue(eFilter,this.rack.filter.actual,this.rack.filter.filterNode.frequency);
+        // const render1 = await this.softValue(eVolume,this.rack.volume.actual);
         // console.log('Message:', render);
     }
     requestTrack() {
