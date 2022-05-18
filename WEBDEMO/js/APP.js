@@ -37,14 +37,14 @@ class APP {
                         const scale = Math.round(mapRange(boxIndex, 0, myMap.hitBox.length, 0, target.length));
                         const preset = target[scale]
                         console.log(preset);
-                        element.sample.render(5000,10);
+                        element.sample.render(preset,1);
                     }
                 }
                 )
                 this.idRoute = index;
             });
             element.addEventListener("mouseout", e => {
-                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(200,0) })
+                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0,0) })
             });
         });
     }

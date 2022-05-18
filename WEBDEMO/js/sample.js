@@ -9,15 +9,15 @@ class Sample {
 
         this.onRoad = false;
         this.rack = {
-            filter:{
-                varFreq:40,
-                filterNode:null,
-                actual:0,
+            filter: {
+                varFreq: 40,
+                audioNode: null,
+                actual: 0,
             },
-            volume:{
+            volume: {
                 // varFreq:40,
-                // filterNode:null,
-                actual:0,
+                audioNode: null,
+                actual: 0,
             }
         }
         this.variationRoute;
@@ -50,18 +50,22 @@ class Sample {
         this.binauralFIRNode = new BinauralFIR({ audioContext: this.audio });
         this.binauralFIRNode.HRTFDataset = this.hrtfs;
         let sourceNode = this.audio.createBufferSource();
-         this.rack.filter.filterNode = this.initFilter();
-        //  this.rack.filter.filterNode = this.audio.createBiquadFilter();
+        this.initEffect();
+        //  this.rack.filter.audioNode = this.audio.createBiquadFilter();
         sourceNode.buffer = this.sampleBuffer;
         sourceNode.playbackRate.value = sampleRate;             //SAMPLE
         //  -----------------------------------------               //CONNECT
         sourceNode.connect(this.binauralFIRNode.input);        //BINAU
-        this.binauralFIRNode.connect( this.rack.filter.filterNode);
-         this.rack.filter.filterNode.connect(this.audio.destination);
+        this.binauralFIRNode.connect(this.rack.filter.audioNode);
+        this.rack.filter.audioNode.connect(this.audio.destination);
         // this.binauralFIRNode.connect(this.audio.destination);  //SOURCE  
         this.binauralFIRNode.setPosition(90, 10, 1);
         sourceNode.loop = true;
         sourceNode.start(0, decay);
+    }
+    initEffect() {
+        this.rack.filter.audioNode = this.initFilter();
+        this.rack.volume.audioNode = this.initGain();
     }
     initFilter(audioNode) {
         audioNode = this.audio.createBiquadFilter();
@@ -76,19 +80,23 @@ class Sample {
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
         return audioNode
     }
-    softValue(fxTarget,fxTemp,fxType, index = 0) {
-        // console.log(fxType.filterNode.frequency);
-        return new Promise(resolve => {
+    initGain(audioNode) {
+        audioNode = this.audio.createGain();
+        return audioNode;
+        // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
+    }
+    softValue(fxTarget, fxTemp, fxType, index = 0) {
+         new Promise(resolve => {
             const draw = () => {
-             
+                // console.log(fxTarget, fxTemp, fxType);
                 if (index >= 0.99) {
-                    fxType.value =fxTarget
+                    fxType.value = fxTarget
                     // resolve("the new value " + effect);
                 } else {
                     index += this.thresholdLerp;
                     fxTemp = Math.round(myLerp(fxTemp, fxTarget, index));
                     // fxType.value =fxTemp
-                    fxType.value  =fxTemp
+                    fxType.value = fxTemp
                     // console.log(fxTemp);
                     requestAnimationFrame(() => draw());
                 }
@@ -96,9 +104,11 @@ class Sample {
             draw()
         });
     }
-    async render(eFilter,eVolume) {
-                                                // fxTarget fxTemp                  fxType  
-        const filterRender = await this.softValue(eFilter,this.rack.filter.actual,this.rack.filter.filterNode.frequency);
+    async render(eFilter, eVolume) {
+        // fxTarget fxTemp                  fxType  
+        // console.log(this.rack.volume.audioNode.);
+        const filterRender = await this.softValue(eFilter, this.rack.filter.actual, this.rack.filter.audioNode.frequency);
+        // const fvolumeRender = await this.softValue(eVolume, this.rack.volume.actual, this.rack.volume.audioNode.gain);
         // const render1 = await this.softValue(eVolume,this.rack.volume.actual);
         // console.log('Message:', render);
     }

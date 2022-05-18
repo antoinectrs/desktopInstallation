@@ -1,3 +1,3 @@
 {
-  "tracks": [{ "volume": ["hello", "oue", "oki", 0, 0] }]
+  "tracks": [{ "volume": [0, 500, 5000, 500, 0] }]
 }
