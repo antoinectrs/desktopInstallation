@@ -13,6 +13,7 @@
 }
 
 .circle {
+    /* transition: 0.1s;     */
     position: absolute;
     width: 75px;
     height: 75px;
@@ -21,7 +22,7 @@
     margin: -75px 0 0 -75px;
     /* background: white; */
     stroke: black;
-    filter: blur(7px)contrast(100);
+    /* filter: blur(2px)contrast(100); */
     border: solid 1px;
     /* background: blue; */
     border-radius: 80%;
@@ -152,7 +153,6 @@ input[type=range][orient=vertical] {
 .color {
     width: auto;
     height: 100%;
-    /* filter: blur(42px); */
 }
 
 /* DEV */
@@ -211,7 +211,7 @@ path.leaflet-interactive:last-child {
     display: none;
 }
 .leaflet-pane{
-    filter: blur(5px) contrast(1.2);
+    filter: blur(4px) contrast(1.14);
 }
 #map {
     cursor: none;

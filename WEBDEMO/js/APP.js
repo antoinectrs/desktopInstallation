@@ -15,7 +15,10 @@ class APP {
     }
     dom(target = "button", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
-            this.point.forEach(element => { element.sample.playSample(0) })
+            this.point.forEach((element,index) => {
+                element.sample.playSample(0);
+                element.sample.initOrientation(this.preset[index].binaural); 
+                 })
             this.checkRoad();
         });
     }

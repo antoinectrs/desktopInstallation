@@ -1,6 +1,6 @@
 
 class Sample {
-    constructor(path) {
+    constructor(path, orientation) {
         this.audio = new (AudioContext || webkitAudioContext || mozAudioContext)(),
             this.binauralFIRNode = null,
             this.path = path;
@@ -18,6 +18,9 @@ class Sample {
                 // varFreq:40,
                 audioNode: null,
                 actual: 0,
+            },
+            binaural: {
+                orientation: null
             }
         }
         this.variationRoute;
@@ -28,6 +31,11 @@ class Sample {
     initVariationRoute(value) {
         this.variationRoute = value;
     }
+    initOrientation(value) {
+        this.rack.binaural.orientation = value;
+        this.binauralFIRNode.setPosition(this.rack.binaural.orientation, 10, 1);
+    }
+
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
         console.log('Got raw sample data from XHR');
@@ -59,7 +67,6 @@ class Sample {
         this.binauralFIRNode.connect(this.rack.filter.audioNode);
         this.rack.filter.audioNode.connect(this.audio.destination);
         // this.binauralFIRNode.connect(this.audio.destination);  //SOURCE  
-        this.binauralFIRNode.setPosition(90, 10, 1);
         sourceNode.loop = true;
         sourceNode.start(0, decay);
     }
@@ -87,16 +94,16 @@ class Sample {
     }
     softValue(fxTarget, fxTemp, fxType, index = 0) {
         console.log(fxTemp);
-         new Promise(resolve => {
+        new Promise(resolve => {
             const draw = () => {
                 // console.log(fxTarget, fxTemp, fxType);
                 if (index >= 0.99) {
                     fxType.value = fxTarget
-                    this.rack.filter.actual =   fxTarget;
+                    this.rack.filter.actual = fxTarget;
                     // resolve("the new value " + effect);
                 } else {
                     index += this.thresholdLerp;
-                  this.rack.filter.actual =   fxTemp;
+                    this.rack.filter.actual = fxTemp;
                     fxTemp = Math.round(myLerp(fxTemp, fxTarget, index));
                     // fxType.value =fxTemp
                     fxType.value = fxTemp
