@@ -22,10 +22,12 @@ class APP {
     listenMyCompass(compass) {
         const search = () => {
             setTimeout(() => {
-                // console.log(this.myCompass.permissionGranted );
-                // if(this.myCompass.permissionGranted == true){
-                    console.log(  this.myCompass.compassLoad());
-                // }
+                const orientation = this.myCompass.compassLoad()
+                console.log(orientation);
+                if(orientation!=undefined){
+                    this.myMap.changeOrientation(orientation)
+                }
+             
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }
@@ -85,7 +87,7 @@ class APP {
             .then(response => response.json())
             .then(data => {
                 const JSdata = data;
-                this.myMap = new MapDebug(JSdata);
+                this.myMap = new MapDebug(JSdata, this.statut);
                 this.myMap.init();
             })
             .catch(error => console.log(error));

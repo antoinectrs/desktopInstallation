@@ -1,11 +1,8 @@
 class myCompass {
     constructor() {
         this.myCompass = new Compass();
-        this.method = null;
-        this.myOrientation = null;
-        this.accepted = false;
         this.myCompass.init(function (method) {
-            console.log('Compass heading by ' + method);
+            // console.log('Compass heading by ' + method);
         });
     }
     compassLoad() {

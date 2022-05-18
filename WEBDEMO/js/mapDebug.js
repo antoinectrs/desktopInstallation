@@ -1,5 +1,6 @@
 class MapDebug {
-    constructor(myData) {
+    constructor(myData, statu) {
+        this.statut;
         this.myData = myData;
         this.map;
         this.zoom = 25;
@@ -13,9 +14,10 @@ class MapDebug {
         this.route;
         this.inRoute = false;
         this.idRoute = null;
-        this.change=false;
+        this.change = false;
         // 
     }
+
     convertToPointPath() {
         this.myData.point.forEach(element => {
             this.pointPath.push(element.position);
@@ -38,14 +40,14 @@ class MapDebug {
         var boxes = L.RouteBoxer.box(route, distance);
         boxes.forEach(element => {
             this.hitBox.push(L.rectangle(element, { color: "#ff7800", opacity: 0, weight: 1 }).addTo(this.map));
-        });   
+        });
         // this.listenerArray();
     }
     init() {
         const token = "pk.eyJ1IjoiYW50b2luZTk4IiwiYSI6ImNrMXVxemtrNzBjbTczaXBhb2I3amJ5YncifQ.EqRwzHSuwtW2sp615mvCAQ";
         this.map = L.map('map', {
             rotate: true,
-            // bearing: 00,
+            // bearing: 70,
         }).setView([this.origine.lat, this.origine.lng], this.zoom);
         var gl = L.mapboxGL({
             accessToken: token,
@@ -67,9 +69,9 @@ class MapDebug {
         this.control();
     }
     control() {
-       this.route = L.Routing.control({
+        this.route = L.Routing.control({
             routeWhileDragging: false,
-            createMarker: function() { return null; },
+            createMarker: function () { return null; },
             geocoder: L.Control.Geocoder.nominatim(),
             router: new L.Routing.osrmv1({
                 language: "fr",
@@ -83,20 +85,34 @@ class MapDebug {
         // });
     }
     routeListener() {
-            this.route.addEventListener('routeselected', (buffer) => {this.convertToPointRoadBox(buffer)});
+        this.route.addEventListener('routeselected', (buffer) => { this.convertToPointRoadBox(buffer) });
     }
+
+
+
+
+
+
+    // MOBILE 
+    changeOrientation(value) {
+        this.map.setBearing(value);
+    }
+
+
+
+
     // listenerArray(array=this.hitBox) {
-       
-        // array.forEach((element, index) => {
-        //     element.addEventListener("mouseover", e => {
-        //         console.log("onsode");
-        //         this.idRoute = index;
-        //         return this.inRoute=true;
-        //     });
-        //     element.addEventListener("mouseout", e => {
-        //         return this.inRoute=false;;
-        //     });
-        // });
+
+    // array.forEach((element, index) => {
+    //     element.addEventListener("mouseover", e => {
+    //         console.log("onsode");
+    //         this.idRoute = index;
+    //         return this.inRoute=true;
+    //     });
+    //     element.addEventListener("mouseout", e => {
+    //         return this.inRoute=false;;
+    //     });
+    // });
     // }
 
 }
