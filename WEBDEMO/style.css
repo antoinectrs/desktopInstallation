@@ -10,22 +10,28 @@
 
 .circle {
     position: absolute;
-    width: 50px;
-    height: 50px;
-    top: 50%;
-    left: 50%;
-    margin: -50px 0 0 -50px;
+    width: 75px;
+    height: 75px;
+    top: 75%;
+    left: 75%;
+    margin: -75px 0 0 -75px;
     /* background: white; */
-    background: blue;
+    stroke: black;
+    filter: blur(7px)contrast(100);
+    border: solid 1px;
+    /* background: blue; */
     border-radius: 80%;
     backface-visibility: hidden;
     z-index: 90000;
-    transform: translate(25px,25px);
+    transform: translate(37.5px,37.5px);
     pointer-events: none;
+    backdrop-filter: blur(65px);
+    opacity: 0.7;
   }
 
 body {
     margin: 0;
+
 }
 button[type=button] {
     z-index: 2000;
@@ -190,7 +196,8 @@ path.leaflet-interactive:last-child {
     display: none;
 }
 #map {
-    /* filter: blur(8px) contrast(1.8); */
+    cursor: none;
+    filter: blur(5px) contrast(1.2);
     /* filter: blur(173px) contrast(5.5); */
     height: 100vh;
     width: 100vw;
@@ -198,6 +205,9 @@ path.leaflet-interactive:last-child {
     z-index: 1000;
     /* pointer-events: none; */
     /* opacity: 0.001; */
+}
+.leaflet-interactive {
+    cursor: none!important;
 }
 .leaflet-control-container{
     display: none;
