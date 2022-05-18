@@ -11,7 +11,17 @@
     font-family: selfMo;
     src: url(./font/self.otf);
 }
-
+.menu {
+    z-index: 900;
+    width: 100;
+}
+#play{
+    position: absolute;
+}
+.menu .place {
+    position: absolute;
+    right: 0;
+}
 .circle {
     /* transition: 0.1s;     */
     position: absolute;

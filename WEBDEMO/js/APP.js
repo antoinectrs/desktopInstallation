@@ -13,7 +13,7 @@ class APP {
         this.dom();
         this.clickDebug();
     }
-    dom(target = "button", trigger = 'click') {
+    dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             this.point.forEach((element,index) => {
                 element.sample.playSample(0);
