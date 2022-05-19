@@ -2,6 +2,7 @@
   "tracks": [
     { "volume": [0, 1000, 5000, 1000, 0], "binaural": 90 },
     { "volume": [5000, 1000, 0, 0, 0], "binaural": -90 },
-    { "volume": [0, 0, 0, 1000, 5000], "binaural": 0 }
+    { "volume": [0, 0, 0, 1000, 5000], "binaural": 0 },
+    { "volume": [0, 1000, 5000, 1000, 0], "binaural": 0 }
   ]
 }

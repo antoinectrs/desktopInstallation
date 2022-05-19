@@ -128,7 +128,8 @@ class Sample {
         req.addEventListener('load', (event) => {
             this.createBufferFromData(req.response);
         });
-        req.open('GET', `../snd/parc/${this.path}.wav`, true);
+        // req.open('GET', `../snd/parc/${this.path}.wav`, true);
+        req.open('GET', `../snd/track01/${this.path}.wav`, true);
         req.send();
     }
     hrtf(sampleRate) {

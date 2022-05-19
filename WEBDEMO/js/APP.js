@@ -4,7 +4,9 @@ class APP {
         console.log("vous êtes sur " + this.statut);
         this.myMap;
         this.point = [];
-        this.musicList = ["lead", "organ", "perc"];
+        this.musicList = ["01", "02", "03", "04"];
+        this.noise = "wait";
+        this.noPoint;
         this.preset;
         this.setUp();
     }
@@ -17,17 +19,21 @@ class APP {
         if (this.statut == "mobile") {
             this.myCompass = new myCompass();
             this.listenMyCompass(this.myCompass);
+            this.myPosition();
         }
+    }
+    myPosition() {
+        // navigator.geolocation.watchPosition(pos => {
+
+        // });
     }
     listenMyCompass(compass) {
         const search = () => {
             setTimeout(() => {
                 const orientation = this.myCompass.compassLoad()
-                console.log(orientation);
-                if(orientation!=undefined){
+                if (orientation != undefined) {
                     this.myMap.changeOrientation(orientation)
                 }
-             
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }
@@ -39,6 +45,8 @@ class APP {
                 element.sample.playSample(0);
                 element.sample.initOrientation(this.preset[index].binaural);
             })
+            this.noPoint.sample.playSample(0);
+            this.noPoint.sample.initOrientation(0);
             this.checkRoad();
         });
     }
@@ -64,9 +72,11 @@ class APP {
                     }
                 }
                 )
+                if (this.noPoint.sample.audio.state != "suspended"){this.noPoint.sample.render(0, 1)}
                 this.idRoute = index;
             });
             element.addEventListener("mouseout", e => {
+                if (this.noPoint.sample.audio.state != "suspended"){this.noPoint.sample.render(5000, 1)}
                 this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0, 0) })
             });
         });
@@ -80,6 +90,8 @@ class APP {
         this.point.forEach(element => {
             element.sample.requestTrack()
         });
+        this.noPoint = {"sample":new Sample(this.noise)};
+        this.noPoint.sample.requestTrack();
 
     }
     loadData() {
