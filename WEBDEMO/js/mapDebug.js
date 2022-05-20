@@ -15,6 +15,7 @@ class MapDebug {
         this.inRoute = false;
         this.idRoute = null;
         this.change = false;
+        this.distance = 0.02;
         // 
     }
 
@@ -36,8 +37,8 @@ class MapDebug {
         var polyline = L.polyline(array);
         const data = polyline.encodePath()
         let route = new L.Polyline(array)
-        var distance = 0.01; // Distance in km
-        var boxes = L.RouteBoxer.box(route, distance);
+        // var distance = this.distance; // Distance in km
+        var boxes = L.RouteBoxer.box(route, this.distance);
         boxes.forEach(element => {
             this.hitBox.push(L.rectangle(element, { color: "#ff7800", opacity: 0, weight: 1 }).addTo(this.map));
         });
@@ -87,8 +88,24 @@ class MapDebug {
     routeListener() {
         this.route.addEventListener('routeselected', (buffer) => { this.convertToPointRoadBox(buffer) });
     }
+    boxTest() {
+        // define rectangle geographical bounds
+       
+        var bounds = [[ 46.53678, 6.58923], [46.53879, 6.58834]];
 
+        // create an orange rectangle
+        const rectb =L.rectangle(bounds, { color: "red", weight: 1 }).addTo( this.map);
 
+        // zoom the map to the rectangle bounds
+        this.map.fitBounds(bounds);
+        // this.map.on('click', this.onMapClick);
+        this.map.on('locationfound', this.onMapClick);
+    }
+
+    onMapClick(e) {
+       
+        console.log(e);
+    }
 
 
 

@@ -17,15 +17,28 @@ class APP {
         this.dom();
         this.clickDebug();
         if (this.statut == "mobile") {
-            this.myCompass = new myCompass();
-            this.listenMyCompass(this.myCompass);
-            this.myPosition();
+            this.mobile()
         }
     }
+    mobile() {
+        this.myCompass = new myCompass();
+        this.listenMyCompass(this.myCompass);
+        this.myPosition();
+    }
     myPosition() {
-        // navigator.geolocation.watchPosition(pos => {
-
-        // });
+        navigator.geolocation.watchPosition(pos => {
+            // console.log(pos.coords.latitude);
+            var myLatlng = L.latLng(pos.coords.latitude,pos.coords.longitude);
+            // console.log(this.myMap);
+            this.myMap.hitBox.forEach((element, index) => {
+                // console.log(this.myMap.distance*4000);
+                const centerL = element.getBounds().getCenter();
+                const distanceFar = myLatlng.distanceTo(centerL);
+                if(distanceFar <=70){
+                    console.log(distanceFar);
+                }
+            });
+        });
     }
     listenMyCompass(compass) {
         const search = () => {
@@ -72,11 +85,11 @@ class APP {
                     }
                 }
                 )
-                if (this.noPoint.sample.audio.state != "suspended"){this.noPoint.sample.render(0, 1)}
+                if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(0, 1) }
                 this.idRoute = index;
             });
             element.addEventListener("mouseout", e => {
-                if (this.noPoint.sample.audio.state != "suspended"){this.noPoint.sample.render(5000, 1)}
+                if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(5000, 1) }
                 this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0, 0) })
             });
         });
@@ -90,7 +103,7 @@ class APP {
         this.point.forEach(element => {
             element.sample.requestTrack()
         });
-        this.noPoint = {"sample":new Sample(this.noise)};
+        this.noPoint = { "sample": new Sample(this.noise) };
         this.noPoint.sample.requestTrack();
 
     }
@@ -101,6 +114,7 @@ class APP {
                 const JSdata = data;
                 this.myMap = new MapDebug(JSdata, this.statut);
                 this.myMap.init();
+                this.myMap.boxTest();
             })
             .catch(error => console.log(error));
     }
