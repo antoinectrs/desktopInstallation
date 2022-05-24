@@ -20,6 +20,7 @@ class APP {
             this.mobile()
         }
     }
+        // ---------------- MOBILE -----------------    
     mobile() {
         this.myCompass = new myCompass();
         this.listenMyCompass(this.myCompass);
@@ -27,18 +28,19 @@ class APP {
     }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
-            // console.log(pos.coords.latitude);
             var myLatlng = L.latLng(pos.coords.latitude,pos.coords.longitude);
-            // console.log(this.myMap);
+            // / console.log(this.myMap.distance*4000);
             this.myMap.hitBox.forEach((element, index) => {
-                // console.log(this.myMap.distance*4000);
-                const centerL = element.getBounds().getCenter();
-                const distanceFar = myLatlng.distanceTo(centerL);
-                if(distanceFar <=70){
-                    console.log(distanceFar);
-                }
+                farestPoint(myLatlng,element,70)
             });
         });
+    }
+    farestPoint(myPos,box,maxDistance){
+        const centerL = box.getBounds().getCenter();
+        const distanceFar = myPos.distanceTo(centerL);
+        if(distanceFar <=maxDistance){
+           return distanceFar;
+        }
     }
     listenMyCompass(compass) {
         const search = () => {
@@ -52,6 +54,7 @@ class APP {
         }
         search();
     }
+     // ---------------- MOBILE -----------------    
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             this.point.forEach((element, index) => {
