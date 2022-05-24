@@ -20,7 +20,7 @@ class APP {
             this.mobile()
         }
     }
-        // ---------------- MOBILE -----------------    
+    // ---------------- MOBILE -----------------    
     mobile() {
         this.myCompass = new myCompass();
         this.listenMyCompass(this.myCompass);
@@ -28,18 +28,18 @@ class APP {
     }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
-            var myLatlng = L.latLng(pos.coords.latitude,pos.coords.longitude);
+            var myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
             // / console.log(this.myMap.distance*4000);
             this.myMap.hitBox.forEach((element, index) => {
-                farestPoint(myLatlng,element,70)
+                farestPoint(myLatlng, element, 70)
             });
         });
     }
-    farestPoint(myPos,box,maxDistance){
+    farestPoint(myPos, box, maxDistance) {
         const centerL = box.getBounds().getCenter();
         const distanceFar = myPos.distanceTo(centerL);
-        if(distanceFar <=maxDistance){
-           return distanceFar;
+        if (distanceFar <= maxDistance) {
+            return distanceFar;
         }
     }
     listenMyCompass(compass) {
@@ -54,7 +54,7 @@ class APP {
         }
         search();
     }
-     // ---------------- MOBILE -----------------    
+    // ---------------- MOBILE -----------------    
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             this.point.forEach((element, index) => {
@@ -71,33 +71,20 @@ class APP {
             this.mouseVisualisation(event);
         });
     }
-    checkRoad(myMap = this.myMap) {
-        myMap.hitBox.forEach((element, index) => {
-            const boxIndex = index;
-            element.addEventListener("mouseover", e => {
-                //MAP
-
-                //SOUND
-                this.point.forEach((element, index) => {
-                    if (element.sample.audio.state != "suspended") {
-                        const target = this.preset[index].volume;
-                        const scale = Math.round(mapRange(boxIndex, 0, myMap.hitBox.length, 0, target.length));
-                        const preset = target[scale]
-                        // console.log(preset);
-                        element.sample.render(preset, 1);
-                    }
-                }
-                )
-                if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(0, 1) }
-                this.idRoute = index;
-            });
-            element.addEventListener("mouseout", e => {
-                if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(5000, 1) }
-                this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0, 0) })
-            });
+    checkRoad() {
+        this.myMap.hitBox.forEach((element, index) => {
+            this.checkHitBox(element, index);
         });
     }
-
+    checkHitBox(element, boxIndex) {
+        element.addEventListener("mouseover", e => {
+            this.renderPoint(element, boxIndex);
+        });
+        element.addEventListener("mouseout", e => {
+            if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(5000, 1) }
+            this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0, 0) })
+        });
+    }
     initPoint(musicList, preset) {
         this.point = musicList.map(function (music, preset) {
             return { "sample": new Sample(music) }// "graphic": new Circle(),// "space": new Space(2),
@@ -108,7 +95,22 @@ class APP {
         });
         this.noPoint = { "sample": new Sample(this.noise) };
         this.noPoint.sample.requestTrack();
-
+    }
+    renderPoint(element, boxIndex) {
+        //SOUND
+        this.point.forEach((element, index) => {
+            if (element.sample.audio.state != "suspended") {
+                this.asignPreset(index, boxIndex, element)
+            }
+        })
+        if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(0, 1) }
+        this.idRoute = boxIndex;
+    }
+    asignPreset(index, boxIndex, element) {
+        const target = this.preset[index].volume;
+        const scale = Math.round(mapRange(boxIndex, 0, this.myMap.hitBox.length, 0, target.length));
+        const preset = target[scale];
+        element.sample.render(preset, 1);
     }
     loadData() {
         fetch('../js/data.JSON')
