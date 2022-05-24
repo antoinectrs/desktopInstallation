@@ -28,19 +28,22 @@ class APP {
     }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
-            var myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
+            const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
             // / console.log(this.myMap.distance*4000);
-            this.myMap.hitBox.forEach((element, index) => {
-                farestPoint(myLatlng, element, 70)
-            });
+          console.log( this.closerPoint(myLatlng,40));
         });
     }
-    farestPoint(myPos, box, maxDistance) {
+    closerPoint(myLatlng,maxDistance) {
+        const map1= this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
+        const closer = Math.min(...map1);
+        if (closer <= maxDistance) {
+                return closer;
+            }
+        return "to far";
+    }
+    syncDistance(myPos, box) {
         const centerL = box.getBounds().getCenter();
-        const distanceFar = myPos.distanceTo(centerL);
-        if (distanceFar <= maxDistance) {
-            return distanceFar;
-        }
+       return myPos.distanceTo(centerL);
     }
     listenMyCompass(compass) {
         const search = () => {
@@ -81,8 +84,7 @@ class APP {
             this.renderPoint(element, boxIndex);
         });
         element.addEventListener("mouseout", e => {
-            if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(5000, 1) }
-            this.point.forEach(element => { if (element.sample.audio.state != "suspended") element.sample.render(0, 0) })
+            this.releasePoint();
         });
     }
     initPoint(musicList, preset) {
@@ -97,7 +99,6 @@ class APP {
         this.noPoint.sample.requestTrack();
     }
     renderPoint(element, boxIndex) {
-        //SOUND
         this.point.forEach((element, index) => {
             if (element.sample.audio.state != "suspended") {
                 this.asignPreset(index, boxIndex, element)
@@ -105,6 +106,14 @@ class APP {
         })
         if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(0, 1) }
         this.idRoute = boxIndex;
+    }
+    releasePoint() {
+        if (this.noPoint.sample.audio.state != "suspended") {
+            this.noPoint.sample.render(5000, 1)
+        }
+        this.point.forEach(element => {
+            if (element.sample.audio.state != "suspended") element.sample.render(0, 0)
+        })
     }
     asignPreset(index, boxIndex, element) {
         const target = this.preset[index].volume;
