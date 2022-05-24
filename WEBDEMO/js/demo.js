@@ -1,35 +1,26 @@
 // ---------------- DESKTOP -----------------    
 class DEMO {
-    constructor(myMap,point,noPoint) {
-        this.myMap= myMap;
+    constructor(myMap, point, noPoint) {
+        this.myMap = myMap;
         this.point = point;
-        this.noPoint =noPoint;
+        this.noPoint = noPoint;
         this.preset;
-        // this.checkRoad();
         this.clickDebug();
     }
     checkRoad() {
-        this.myMap.hitBox.forEach((element, index) => {
-            this.checkHitBox(element, index);
-        });
+        this.myMap.hitBox.forEach((element, index) => this.checkHitBox(element, index));
     }
     checkHitBox(element, boxIndex) {
-        element.addEventListener("mouseover", e => {
-            this.renderPoint(element, boxIndex);
-        });
-        element.addEventListener("mouseout", e => {
-            this.releasePoint();
-        });
+        element.addEventListener("mouseover", e => this.renderPoint(element, boxIndex));
+        element.addEventListener("mouseout", e => this.releasePoint());
     }
-
     renderPoint(element, boxIndex) {
         this.point.forEach((element, index) => {
-            if (element.sample.audio.state != "suspended") {
+            if (element.sample.audio.state != "suspended")
                 this.asignPreset(index, boxIndex, element)
-            }
         })
-        if (this.noPoint.sample.audio.state != "suspended") { this.noPoint.sample.render(0, 1) }
-        this.idRoute = boxIndex;
+        if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(0, 1);
+        // this.idRoute = boxIndex;
     }
     asignPreset(index, boxIndex, element) {
         const target = this.preset[index].volume;
@@ -38,17 +29,13 @@ class DEMO {
         element.sample.render(preset, 1);
     }
     releasePoint() {
-        if (this.noPoint.sample.audio.state != "suspended") {
-            this.noPoint.sample.render(5000, 1)
-        }
+        if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(5000, 1);
         this.point.forEach(element => {
             if (element.sample.audio.state != "suspended") element.sample.render(0, 0)
         })
     }
     clickDebug(target = "#map", trigger = 'mousemove') {
-        document.querySelector(target).addEventListener(trigger, (event) => {
-            this.mouseVisualisation(event);
-        });
+        document.querySelector(target).addEventListener(trigger, (event) => this.mouseVisualisation(event));
     }
     mouseVisualisation(event) {
         const target = document.querySelector("#canvas .circle");

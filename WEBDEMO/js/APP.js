@@ -1,7 +1,8 @@
 class APP {
     constructor(statut) {
         this.statut = statut;
-        this.mobile, this.demo = null;
+        // this.mobile,
+         this.demo = null;
         console.log("vous êtes sur " + this.statut);
         this.myMap;
         this.point = [];
@@ -21,13 +22,14 @@ class APP {
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             this.point.forEach((element, index) => {
-                console.log("inside");
+                
                 element.sample.playSample(0);
                 element.sample.initOrientation(this.preset[index].binaural);
             })
             this.noPoint.sample.playSample(0);
             this.noPoint.sample.initOrientation(0);
             // this.checkRoad();
+            this.demo.preset=this.preset;
             this.demo.checkRoad()
         });
     }
@@ -57,7 +59,7 @@ class APP {
                 this.myMap = new MapDebug(JSdata, this.statut);
                 this.myMap.init();
                 this.myMap.boxTest();
-                this.chooseStatut(this.statut)
+                this.newStatut(this.statut)
             })
             .catch(error => console.log(error));
     }
@@ -66,14 +68,12 @@ class APP {
             .then(response => response.json())
             .then(data => {
                 this.preset = data.tracks;
-                this.demo.preset=this.preset;
-
             })
             .catch(error => console.log(error));
     }
-    chooseStatut(statut){
+    newStatut(statut){
         if (statut == "mobile") {
-            this.mobile = new MOBILE(this.myMap);
+            this.demo = new MOBILE(this.myMap,this.point,this.noPoint);
         }else{
             console.log(this.myMap);
             this.demo = new DEMO(this.myMap,this.point,this.noPoint); 

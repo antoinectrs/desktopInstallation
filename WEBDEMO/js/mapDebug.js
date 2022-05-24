@@ -25,7 +25,6 @@ class MapDebug {
         });
     }
     convertToPointRoadBox(e) {
-        console.log(e);
         var routing = e.route.coordinates;
         routing.forEach(element => {
             const content = [element.lat, element.lng]

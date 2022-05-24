@@ -38,7 +38,7 @@ class Sample {
 
     // Decode the raw sample data into a AudioBuffer
     createBufferFromData(rawData) {
-        console.log('Got raw sample data from XHR');
+        // console.log('Got raw sample data from XHR');
         // this.audio.decodeAudioData(rawData, this.checkBuffer.bind(this));
         // this.audio.decodeAudioData(rawData, (buffer) => this.checkBuffer(buffer));
         this.audio.decodeAudioData(rawData, (buffer) => {
@@ -47,7 +47,7 @@ class Sample {
     }
     checkBuffer(buffer) {
         this.sampleBuffer = buffer;
-        console.log('sample good');
+        // console.log('sample good');
     }
     // Create a new source node and play it
     playSample(decay, e, sampleRate) {
@@ -93,7 +93,7 @@ class Sample {
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
     }
     softValue(fxTarget, fxTemp, fxType, index = 0) {
-        console.log(fxTemp);
+        // console.log(fxTemp);
         new Promise(resolve => {
             const draw = () => {
                 // console.log(fxTarget, fxTemp, fxType);
