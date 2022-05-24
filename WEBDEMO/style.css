@@ -225,7 +225,7 @@ path.leaflet-interactive:last-child {
     filter: blur(4px) contrast(1.14);    
 }
 #map {
-    cursor: none;
+    /* cursor: none; */
    
     /* filter: blur(173px) contrast(5.5); */
     height: 100vh;
