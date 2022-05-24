@@ -29,7 +29,6 @@
         const centerL = box.getBounds().getCenter();
         return myPos.distanceTo(centerL);
     }
-    
     listenMyCompass(compass) {
         const search = () => {
             setTimeout(() => {
