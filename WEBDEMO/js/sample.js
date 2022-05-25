@@ -23,7 +23,7 @@ class Sample {
                 orientation: null
             },
             speed: {
-                actual: 1
+                actual: 5
             }
         }
         this.variationRoute;
@@ -88,7 +88,7 @@ class Sample {
         // audioNode.type = "lowshelf";
         audioNode.frequency.value = this.rack.filter.varFreq;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
-        audioNode.gain.setValueAtTime(25, this.audio.currentTime);
+        audioNode.gain.setValueAtTime(30, this.audio.currentTime);
         return audioNode
     }
     initGain(audioNode) {
@@ -97,7 +97,8 @@ class Sample {
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
     }
     initSpeed(speed) { 
-         this.sourceNode.playbackRate.value = speed;
+        this.sourceNode.playbackRate.value = speed;
+        // console.log( this.sourceNode);
     }
 
     softValue(fxTarget, fxTemp, fxType, index = 0) {

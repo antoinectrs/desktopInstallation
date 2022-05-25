@@ -15,29 +15,38 @@ class MOBILE {
 
     checkRoad() { this.autorisePlay = true }
     myPosition() {
+        console.log("inside");
         navigator.geolocation.watchPosition(pos => {
             if (this.autorisePlay) this.manager(pos);
         })
     }
     manager(pos) {
         this.getAltittude(pos);
+        this.centerMap(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
         console.log(catchCloserPoint);
         if (catchCloserPoint != "tofar") { this.renderPoint(catchCloserPoint.index) }
         else {
             this.releasePoint();
-            this.myDebug("range","tofar")
+            this.myDebug("range", "tofar")
         }
     }
-    getAltittude(pos){
+    getAltittude(pos) {
         // console.log(pos.coords.accuracy);
         const altitude = pos.coords.altitude
-        if(altitude){
-            this.myDebug("alt",altitude)
+        if (altitude) {
+            this.myDebug("alt", altitude)
             return altitude;
-        }   
-            
+        }
+    }
+    centerMap(pos) {
+        const convertPos = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+        }
+        console.log( this.myMap.map);
+        this.myMap.map.panTo(convertPos);
     }
     closerPoint(myLatlng, maxDistance) {
         const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
@@ -52,7 +61,9 @@ class MOBILE {
     }
     renderPoint(boxIndex) {
         this.point.forEach((element, index) => {
-            if (element.sample.audio.state != "suspended") this.asignPreset(index, boxIndex, element);
+            if (element.sample.audio.state != "suspended") {
+                this.asignPreset(index, boxIndex, element);
+            };
         })
         if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(0, 1);
         // this.idRoute = boxIndex;
@@ -64,12 +75,16 @@ class MOBILE {
         })
     }
     asignPreset(index, boxIndex, element) {
-        const target = this.preset[index].volume;
-        const scale = Math.round(mapRange(boxIndex, 0, this.myMap.hitBox.length, 0, target.length));
-        const preset = target[scale];
+        const targetVolume = this.preset[index].volume;
+        const scale = Math.round(mapRange(boxIndex, 0, this.myMap.hitBox.length, 0, targetVolume.length));
+        const presetVolume = targetVolume[scale];
 
-        this.myDebug("range",scale)
-        element.sample.render(preset, 1);
+        const targetSpeed = this.preset[index].mySpeed;
+        const presetSpeed = targetSpeed[scale];
+
+        this.myDebug("range", scale);
+        element.sample.render(presetVolume, 1);
+        element.sample.initSpeed(presetSpeed)
     }
 
     listenMyCompass(compass) {

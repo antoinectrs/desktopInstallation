@@ -3,7 +3,7 @@ class MapDebug {
         this.statut;
         this.myData = myData;
         this.map;
-        this.zoom = 25;
+        this.zoom = 20;
         this.origine = {
             lat: 46.53675134341545,
             lng: 6.588325489076967,
@@ -93,7 +93,7 @@ class MapDebug {
         var bounds = [[ 46.53678, 6.58923], [46.53879, 6.58834]];
 
         // create an orange rectangle
-        const rectb =L.rectangle(bounds, { color: "red", weight: 1 }).addTo( this.map);
+        // const rectb =L.rectangle(bounds, { color: "red", weight: 1 }).addTo( this.map);
 
         // zoom the map to the rectangle bounds
         this.map.fitBounds(bounds);
