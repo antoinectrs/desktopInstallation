@@ -16,19 +16,28 @@ class MOBILE {
     checkRoad() { this.autorisePlay = true }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
-            console.log(this.autorisePlay);
             if (this.autorisePlay) this.manager(pos);
         })
     }
     manager(pos) {
+        this.getAltittude(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
         console.log(catchCloserPoint);
         if (catchCloserPoint != "tofar") { this.renderPoint(catchCloserPoint.index) }
         else {
             this.releasePoint();
-            this.myDebug("tofar")
+            this.myDebug("range","tofar")
         }
+    }
+    getAltittude(pos){
+        // console.log(pos.coords.accuracy);
+        const altitude = pos.coords.altitude
+        if(altitude){
+            this.myDebug("alt",altitude)
+            return altitude;
+        }   
+            
     }
     closerPoint(myLatlng, maxDistance) {
         const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
@@ -59,7 +68,7 @@ class MOBILE {
         const scale = Math.round(mapRange(boxIndex, 0, this.myMap.hitBox.length, 0, target.length));
         const preset = target[scale];
 
-        this.myDebug(scale)
+        this.myDebug("range",scale)
         element.sample.render(preset, 1);
     }
 
@@ -84,11 +93,10 @@ class MOBILE {
                     longitude: wordData[1]
                 }
             };
-            console.log(pos);
             this.manager(pos);
         })
     }
-    myDebug(value) {
-        document.getElementById("range").innerHTML = value;
+    myDebug(target, value) {
+        document.getElementById(target).innerHTML = value;
     }
 }

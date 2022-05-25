@@ -272,12 +272,13 @@ path.leaflet-interactive:last-child {
     height:30%;
     margin:5%;
 }
-#range{
-    margin: 0;
+#range,#alt{
+    margin-left: 10%;
     width: auto;
     display: inline-block;
     right: 8%;
     bottom: 5%;
+    position: initial;
 }
 @media only screen and (hover: none) and (pointer: coarse) {
     /* a{

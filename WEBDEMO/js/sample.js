@@ -6,7 +6,7 @@ class Sample {
             this.path = path;
         this.hrtfs = hrtfs;
         this.sampleBuffer;
-
+        this.sourceNode;
         this.onRoad = false;
         this.rack = {
             filter: {
@@ -21,6 +21,9 @@ class Sample {
             },
             binaural: {
                 orientation: null
+            },
+            speed: {
+                actual: 1
             }
         }
         this.variationRoute;
@@ -57,22 +60,23 @@ class Sample {
         //  -----------------------------------------               //INIT
         this.binauralFIRNode = new BinauralFIR({ audioContext: this.audio });
         this.binauralFIRNode.HRTFDataset = this.hrtfs;
-        let sourceNode = this.audio.createBufferSource();
-        this.initEffect();
+        this.sourceNode = this.audio.createBufferSource();
+        this.initEffect(this.sourceNode);
         //  this.rack.filter.audioNode = this.audio.createBiquadFilter();
-        sourceNode.buffer = this.sampleBuffer;
-        sourceNode.playbackRate.value = sampleRate;             //SAMPLE
+        this.sourceNode.buffer = this.sampleBuffer;
+        this.sourceNode.playbackRate.value = sampleRate;             //SAMPLE
         //  -----------------------------------------               //CONNECT
-        sourceNode.connect(this.binauralFIRNode.input);        //BINAU
+        this.sourceNode.connect(this.binauralFIRNode.input);        //BINAU
         this.binauralFIRNode.connect(this.rack.filter.audioNode);
         this.rack.filter.audioNode.connect(this.audio.destination);
         // this.binauralFIRNode.connect(this.audio.destination);  //SOURCE  
-        sourceNode.loop = true;
-        sourceNode.start(0, decay);
+        this.sourceNode.loop = true;
+        this.sourceNode.start(0, decay);
     }
-    initEffect() {
+    initEffect(bufferSrc) {
         this.rack.filter.audioNode = this.initFilter();
         this.rack.volume.audioNode = this.initGain();
+        this.initSpeed(this.rack.speed.actual);
     }
     initFilter(audioNode) {
         audioNode = this.audio.createBiquadFilter();
@@ -92,6 +96,10 @@ class Sample {
         return audioNode;
         // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
     }
+    initSpeed(speed) { 
+         this.sourceNode.playbackRate.value = speed;
+    }
+
     softValue(fxTarget, fxTemp, fxType, index = 0) {
         // console.log(fxTemp);
         new Promise(resolve => {
