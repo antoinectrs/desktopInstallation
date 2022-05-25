@@ -17,20 +17,17 @@ class APP {
         this.loadPreset();
         this.initPoint(this.musicList, this.preset)
         this.dom();
-      
     }   
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             this.point.forEach((element, index) => {
-                
                 element.sample.playSample(0);
                 element.sample.initOrientation(this.preset[index].binaural);
             })
             this.noPoint.sample.playSample(0);
             this.noPoint.sample.initOrientation(0);
-            // this.checkRoad();
             this.demo.preset=this.preset;
-            this.demo.checkRoad()
+            this.demo.checkRoad();
         });
     }
    
