@@ -260,3 +260,22 @@ path.leaflet-interactive:last-child {
     background: radial-gradient(#005cff, white)!important;
     position: fixed;
 }
+.console{
+    border:1px solid;
+    top:20%;
+    height:20%;
+    width:50%;
+    position: fixed;
+}
+.console input{
+    width: 85%;
+    height:30%;
+    margin:5%;
+}
+#range{
+    margin: 0;
+    width: auto;
+    display: inline-block;
+    right: 8%;
+    bottom: 5%;
+}

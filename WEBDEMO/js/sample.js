@@ -84,7 +84,7 @@ class Sample {
         // audioNode.type = "lowshelf";
         audioNode.frequency.value = this.rack.filter.varFreq;
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
-        // audioNode.gain.setValueAtTime(10, this.audio.currentTime);
+        audioNode.gain.setValueAtTime(25, this.audio.currentTime);
         return audioNode
     }
     initGain(audioNode) {
