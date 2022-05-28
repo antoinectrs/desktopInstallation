@@ -209,8 +209,9 @@ input[type=range][orient=vertical] {
 
 /* MAP */
 .leaflet-layer {
-    opacity: 0.2 !important;    
+    /* opacity: 0.2 !important;     */
     display: none;
+    pointer-events: none;
 }
 path.leaflet-interactive {
     stroke: blue !important;
@@ -235,7 +236,7 @@ path.leaflet-interactive:last-child {
     z-index: 1000;
     /* pointer-events: none; */
     /* opacity: 0.001; */
-    transition: 5s ease-out;
+    /* transition: 5s ease-out; */
 }
 .leaflet-interactive {
     cursor: none!important;
@@ -313,6 +314,7 @@ path.leaflet-interactive:last-child {
     path.leaflet-interactive {
         stroke: #e91707 !important;
         /* stroke-width: 77%;  */
+        stroke-width: 17%; 
     }
 
 }

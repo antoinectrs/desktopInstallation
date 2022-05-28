@@ -6,7 +6,7 @@ class MapDebug {
         this.zoom = 2;
         this.origine = {
             lat: 46.53675134341545,
-            lng: 6.588325489076967,
+            lng : 6.588325489076967,
         }
         this.pointPath = [];
         this.pointRoadBox = [];
@@ -43,12 +43,12 @@ class MapDebug {
         });
         // this.listenerArray();
     }
-    init() {
+    init(lat=this.origine.lat,lng=this.origine.lng,zoom=20) {
         const token = "pk.eyJ1IjoiYW50b2luZTk4IiwiYSI6ImNrMXVxemtrNzBjbTczaXBhb2I3amJ5YncifQ.EqRwzHSuwtW2sp615mvCAQ";
         this.map = L.map('map', {
             rotate: true,
             // bearing: 70,
-        }).setView([this.origine.lat, this.origine.lng], this.zoom);
+        }).setView([lat, this.origine.lng], zoom);
         var gl = L.mapboxGL({
             accessToken: token,
             style: 'mapbox://styles/antoine98/cl33nrlno000g14s9v1c2z1ew'

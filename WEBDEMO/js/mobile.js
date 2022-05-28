@@ -2,28 +2,36 @@
 class MOBILE {
     constructor(myMap, point, noPoint) {
         this.myMap = myMap;
-        this.mapDom = searchHtml("#map .leaflet-pane");
-        hideBlur(this.mapDom, "add");
+        // this.mapDom = searchHtml("#map .leaflet-pane");
+        // hideBlur(this.mapDom, "add");
+        this.targetMap = null;
 
         this.point = point;
         this.noPoint = noPoint;
         this.preset;
-        this.myCompass = new myCompass();
-        this.listenMyCompass(this.myCompass);
+        this.myCompass;
         this.myPosition();
         this.autorisePlay = false;
         this.myConsole();
         this.spaceRadius = 50;
+        this.createMap = false;
     }
 
     checkRoad() { this.autorisePlay = true }
     myPosition() {
-        console.log(this.myMap);
         navigator.geolocation.watchPosition(pos => {
             if (this.autorisePlay) this.manager(pos);
         })
     }
     manager(pos) {
+        if (this.createMap == false) {
+            this.myMap.init(pos.coords.latitude, pos.coords.longitude);
+            this.myMap.boxTest();
+            this.myCompass = new myCompass();
+            this.listenMyCompass(this.myCompass);
+            this.createMap = true;
+        }
+
         this.getAltittude(pos);
         this.centerMap(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
@@ -52,9 +60,19 @@ class MOBILE {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude
         }
-        console.log("center");
-        this.myMap.map.panTo(convertPos);
-        this.myMap.map.setZoom(20);
+        console.log("new");
+        // this.myMap.map.panTo(convertPos);
+
+        // this.myMap.map.setView(convertPos, this.myMap.map.getZoom(), {
+        //     "animate": true,
+        //     "pan": {
+        //         "duration": 10
+        //     }
+        // });
+        this.myMap.map.flyTo(convertPos, 20, {
+            animate: true,
+            duration: 1.5
+    });
     }
     closerPoint(myLatlng, spaceRadius) {
         const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
@@ -99,7 +117,7 @@ class MOBILE {
         const search = () => {
             setTimeout(() => {
                 const orientation = this.myCompass.compassLoad()
-                if (orientation != undefined) this.myMap.changeOrientation(orientation);
+                // if (orientation != undefined) this.myMap.changeOrientation(orientation);
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }

@@ -2,7 +2,7 @@ class APP {
     constructor(statut) {
         this.statut = statut;
         // this.mobile,
-         this.demo = null;
+        this.demo = null;
         console.log("vous êtes sur " + this.statut);
         this.myMap;
         this.point = [];
@@ -17,7 +17,7 @@ class APP {
         this.loadPreset();
         this.initPoint(this.musicList, this.preset)
         this.dom();
-    }   
+    }
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             this.point.forEach((element, index) => {
@@ -26,13 +26,13 @@ class APP {
             })
             this.noPoint.sample.playSample(0);
             this.noPoint.sample.initOrientation(0);
-            this.demo.preset=this.preset;
+            this.demo.preset = this.preset;
             this.demo.checkRoad();
         });
     }
-   
 
-  
+
+
     initPoint(musicList, preset) {
         this.point = musicList.map(function (music, preset) {
             return { "sample": new Sample(music) }// "graphic": new Circle(),// "space": new Space(2),
@@ -44,9 +44,9 @@ class APP {
         this.noPoint = { "sample": new Sample(this.noise) };
         this.noPoint.sample.requestTrack();
     }
-   
 
- 
+
+
 
     loadData() {
         // fetch('./DATA/data.JSON')
@@ -55,8 +55,7 @@ class APP {
             .then(data => {
                 const JSdata = data;
                 this.myMap = new MapDebug(JSdata, this.statut);
-                this.myMap.init();
-                this.myMap.boxTest();
+
                 this.newStatut(this.statut)
             })
             .catch(error => console.log(error));
@@ -69,13 +68,17 @@ class APP {
             })
             .catch(error => console.log(error));
     }
-    newStatut(statut){
+    newStatut(statut) {
         if (statut == "mobile") {
-            this.demo = new MOBILE(this.myMap,this.point,this.noPoint);
-        }else{
+            // this.myMap.init();
+            // this.myMap.boxTest();
+            this.demo = new MOBILE(this.myMap, this.point, this.noPoint);
+        } else {
             console.log(this.myMap);
-            this.demo = new DEMO(this.myMap,this.point,this.noPoint); 
+            this.myMap.init();
+            this.myMap.boxTest();
+            this.demo = new DEMO(this.myMap, this.point, this.noPoint);
         }
     }
-  
+
 }
