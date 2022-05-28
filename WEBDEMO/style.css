@@ -210,7 +210,7 @@ input[type=range][orient=vertical] {
 /* MAP */
 .leaflet-layer {
     /* opacity: 0.2 !important;     */
-    display: none;
+    /* display: none; */
     pointer-events: none;
 }
 path.leaflet-interactive {
@@ -221,7 +221,7 @@ path.leaflet-interactive {
     /* stroke-width:   332px; */ 
 }
 path.leaflet-interactive:last-child {
-    display: none;
+    /* display: none; */
 }
 .leaflet-pane{
     /* filter: blur(4px) contrast(1.14);     */
@@ -243,7 +243,7 @@ path.leaflet-interactive:last-child {
     pointer-events: none!important;
 }
 .leaflet-control-container{
-    display: none;
+    /* display: none; */
 }
 #conteneur {
     display: flex;

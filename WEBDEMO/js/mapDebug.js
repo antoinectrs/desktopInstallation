@@ -51,13 +51,13 @@ class MapDebug {
 				rotateControl: {
 					closeOnZeroBearing: false
 				},
-            // bearing: 70,
+            bearing: 0,
         }).setView([lat, this.origine.lng], zoom);
         var gl = L.mapboxGL({
             accessToken: token,
             style: 'mapbox://styles/antoine98/cl33nrlno000g14s9v1c2z1ew'
         }).addTo(this.map);
-
+        // L.Rotate.debug(this.map);
         this.convertToPointPath();
 
         this.layer();
@@ -65,8 +65,8 @@ class MapDebug {
     layer() {
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 20,
-            maxNativeZoom: 20,
+            maxZoom: 18,
+            maxNativeZoom: 18,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,

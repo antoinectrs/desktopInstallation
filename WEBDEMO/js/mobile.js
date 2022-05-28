@@ -30,13 +30,12 @@ class MOBILE {
             this.myCompass = new myCompass();
             this.listenMyCompass(this.myCompass);
             this.createMap = true;
+     
         }
-
         this.getAltittude(pos);
         this.centerMap(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
-        console.log(catchCloserPoint);
         if (catchCloserPoint != "tofar") {
             this.renderPoint(catchCloserPoint.index);
             // hideBlur(this.mapDom, "remove");
@@ -61,15 +60,14 @@ class MOBILE {
             lng: pos.coords.longitude
         }
         console.log("new");
-        // this.myMap.map.panTo(convertPos);
-
         // this.myMap.map.setView(convertPos, this.myMap.map.getZoom(), {
         //     "animate": true,
         //     "pan": {
         //         "duration": 10
         //     }
         // });
-        this.myMap.map.flyTo(convertPos, 20, {
+               // this.myMap.map.setBearing(90);
+        this.myMap.map.flyTo(convertPos, 13, {
             animate: true,
             duration: 1.5
     });
