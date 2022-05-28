@@ -240,6 +240,7 @@ path.leaflet-interactive:last-child {
 }
 .leaflet-interactive {
     cursor: none!important;
+    pointer-events: none!important;
 }
 .leaflet-control-container{
     display: none;

@@ -25,7 +25,7 @@ class MOBILE {
     }
     manager(pos) {
         if (this.createMap == false) {
-            this.myMap.init(pos.coords.latitude, pos.coords.longitude);
+            this.myMap.init(pos.coords.latitude, pos.coords.longitude,10);
             this.myMap.boxTest();
             this.myCompass = new myCompass();
             this.listenMyCompass(this.myCompass);
@@ -39,12 +39,12 @@ class MOBILE {
         console.log(catchCloserPoint);
         if (catchCloserPoint != "tofar") {
             this.renderPoint(catchCloserPoint.index);
-            hideBlur(this.mapDom, "remove");
+            // hideBlur(this.mapDom, "remove");
         }
         else {
             this.releasePoint();
             this.myDebug("range", "tofar");
-            hideBlur(this.mapDom, "add");
+            // hideBlur(this.mapDom, "add");
         }
     }
     getAltittude(pos) {
@@ -117,7 +117,7 @@ class MOBILE {
         const search = () => {
             setTimeout(() => {
                 const orientation = this.myCompass.compassLoad()
-                // if (orientation != undefined) this.myMap.changeOrientation(orientation);
+                if (orientation != undefined) this.myMap.changeOrientation(orientation);
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }

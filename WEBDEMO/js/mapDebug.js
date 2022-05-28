@@ -47,6 +47,10 @@ class MapDebug {
         const token = "pk.eyJ1IjoiYW50b2luZTk4IiwiYSI6ImNrMXVxemtrNzBjbTczaXBhb2I3amJ5YncifQ.EqRwzHSuwtW2sp615mvCAQ";
         this.map = L.map('map', {
             rotate: true,
+            touchRotate: false,
+				rotateControl: {
+					closeOnZeroBearing: false
+				},
             // bearing: 70,
         }).setView([lat, this.origine.lng], zoom);
         var gl = L.mapboxGL({
