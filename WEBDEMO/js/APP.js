@@ -49,7 +49,8 @@ class APP {
  
 
     loadData() {
-        fetch('./js/data.JSON')
+        // fetch('./DATA/data.JSON')
+        fetch('./DATA/prelaz.JSON')
             .then(response => response.json())
             .then(data => {
                 const JSdata = data;
@@ -61,7 +62,7 @@ class APP {
             .catch(error => console.log(error));
     }
     loadPreset() {
-        fetch('./js/presets.JSON')
+        fetch('./DATA/presets.JSON')
             .then(response => response.json())
             .then(data => {
                 this.preset = data.tracks;

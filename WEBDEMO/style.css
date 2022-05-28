@@ -204,7 +204,7 @@ input[type=range][orient=vertical] {
 #gameCanvas {
     width: 100%;
     height: 100vh;
-    filter: blur(100px)contrast(72.1)saturate(0.6);
+    /* filter: blur(100px)contrast(72.1)saturate(0.6); */
 }
 
 /* MAP */
@@ -214,7 +214,8 @@ input[type=range][orient=vertical] {
 }
 path.leaflet-interactive {
     stroke: blue !important;
-    stroke-width: 12px; 
+    stroke-width: 12px;
+     
     /* filter: blur(20px) contrast(9.8); */
     /* stroke-width:   332px; */ 
 }
@@ -222,7 +223,7 @@ path.leaflet-interactive:last-child {
     display: none;
 }
 .leaflet-pane{
-    filter: blur(4px) contrast(1.14);    
+    /* filter: blur(4px) contrast(1.14);     */
 }
 #map {
     /* cursor: none; */
@@ -234,6 +235,7 @@ path.leaflet-interactive:last-child {
     z-index: 1000;
     /* pointer-events: none; */
     /* opacity: 0.001; */
+    transition: 5s ease-out;
 }
 .leaflet-interactive {
     cursor: none!important;
@@ -280,6 +282,10 @@ path.leaflet-interactive:last-child {
     bottom: 5%;
     position: initial;
 }
+.hideBlur{
+    /* filter: blur(173px) contrast(5.5)!important; */
+}
+
 @media only screen and (hover: none) and (pointer: coarse) {
     /* a{
         font-size: 3em;
@@ -301,13 +307,12 @@ path.leaflet-interactive:last-child {
         font-size: 3em;
     }
     .leaflet-pane{
-        filter:  blur(48.1px) contrast(1.34);  
+        /* filter:  blur(48.1px) contrast(1.34);   */
+        /* transition: 2s ease; */
     }
     path.leaflet-interactive {
-        stroke: blue !important;
-        stroke-width: 152px; 
-        /* filter: blur(20px) contrast(9.8); */
-        /* stroke-width:   332px; */ 
+        stroke: #e91707 !important;
+        /* stroke-width: 77%;  */
     }
 
 }

@@ -2,6 +2,9 @@
 class MOBILE {
     constructor(myMap, point, noPoint) {
         this.myMap = myMap;
+        this.mapDom = searchHtml("#map .leaflet-pane");
+        hideBlur(this.mapDom, "add");
+
         this.point = point;
         this.noPoint = noPoint;
         this.preset;
@@ -10,12 +13,12 @@ class MOBILE {
         this.myPosition();
         this.autorisePlay = false;
         this.myConsole();
-        this.spaceRadius = 40;
+        this.spaceRadius = 50;
     }
 
     checkRoad() { this.autorisePlay = true }
     myPosition() {
-        console.log("inside");
+        console.log(this.myMap);
         navigator.geolocation.watchPosition(pos => {
             if (this.autorisePlay) this.manager(pos);
         })
@@ -26,10 +29,14 @@ class MOBILE {
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
         console.log(catchCloserPoint);
-        if (catchCloserPoint != "tofar") { this.renderPoint(catchCloserPoint.index) }
+        if (catchCloserPoint != "tofar") {
+            this.renderPoint(catchCloserPoint.index);
+            hideBlur(this.mapDom, "remove");
+        }
         else {
             this.releasePoint();
-            this.myDebug("range", "tofar")
+            this.myDebug("range", "tofar");
+            hideBlur(this.mapDom, "add");
         }
     }
     getAltittude(pos) {
@@ -45,14 +52,15 @@ class MOBILE {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude
         }
-        console.log( this.myMap.map);
+        console.log("center");
         this.myMap.map.panTo(convertPos);
+        this.myMap.map.setZoom(20);
     }
-    closerPoint(myLatlng, maxDistance) {
+    closerPoint(myLatlng, spaceRadius) {
         const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
         const closer = Math.min(...hitBoxArray);
         const index = hitBoxArray.indexOf(closer);
-        if (closer <= maxDistance) return { index: index, value: closer };
+        if (closer <= spaceRadius) return { index: index, value: closer };
         return "tofar";
     }
     syncDistance(myPos, box) {
@@ -114,4 +122,7 @@ class MOBILE {
     myDebug(target, value) {
         document.getElementById(target).innerHTML = value;
     }
+
+    //  ----------- DOM --------------------
+
 }

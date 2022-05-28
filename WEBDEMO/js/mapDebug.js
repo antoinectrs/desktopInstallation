@@ -3,7 +3,7 @@ class MapDebug {
         this.statut;
         this.myData = myData;
         this.map;
-        this.zoom = 20;
+        this.zoom = 2;
         this.origine = {
             lat: 46.53675134341545,
             lng: 6.588325489076967,
@@ -53,6 +53,7 @@ class MapDebug {
             accessToken: token,
             style: 'mapbox://styles/antoine98/cl33nrlno000g14s9v1c2z1ew'
         }).addTo(this.map);
+
         this.convertToPointPath();
 
         this.layer();
@@ -61,6 +62,7 @@ class MapDebug {
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 20,
+            maxNativeZoom: 20,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
@@ -76,7 +78,8 @@ class MapDebug {
             router: new L.Routing.osrmv1({
                 language: "fr",
                 profile: 'foot',
-            })
+            }),
+            fitSelectedRoutes: false, //desactivate zoom routing
         }).addTo(this.map);
         this.route.setWaypoints(this.pointPath);
         this.routeListener()
@@ -89,9 +92,7 @@ class MapDebug {
     }
     boxTest() {
         // define rectangle geographical bounds
-       
         var bounds = [[ 46.53678, 6.58923], [46.53879, 6.58834]];
-
         // create an orange rectangle
         // const rectb =L.rectangle(bounds, { color: "red", weight: 1 }).addTo( this.map);
 
@@ -100,23 +101,13 @@ class MapDebug {
         // this.map.on('click', this.onMapClick);
         this.map.on('locationfound', this.onMapClick);
     }
-
     onMapClick(e) {
-       
         console.log(e);
     }
-
-
-
-
     // MOBILE 
     changeOrientation(value) {
         this.map.setBearing(value);
     }
-
-
-
-
     // listenerArray(array=this.hitBox) {
 
     // array.forEach((element, index) => {
