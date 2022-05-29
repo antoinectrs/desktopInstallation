@@ -36,17 +36,19 @@ class MOBILE {
             this.myMap.init(pos.coords.latitude, pos.coords.longitude, 10);
             this.myMap.boxTest();
             this.myCompass = new myCompass();
-            this.listenMyCompass(this.myCompass);
+            // this.listenMyCompass(pos);
             this.createMap = true;
         }
         this.getAltittude(pos);
         this.centerMap(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
-        console.log(catchCloserPoint);
+        console.log(catchCloserPoint.hitBoxNear);
+
         if (catchCloserPoint != "tofar") {
             this.renderPoint(catchCloserPoint.index);
             this.setTitlePartition(catchCloserPoint.index);
+            this.listenMyCompass(catchCloserPoint.hitBoxNear);
             // hideBlur(this.mapDom, "remove");
         }
         else {
@@ -82,13 +84,23 @@ class MOBILE {
         });
     }
     closerPoint(myLatlng, spaceRadius) {
-        const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
+        const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(element,myLatlng, 70))
         const closer = Math.min(...hitBoxArray);
         const index = hitBoxArray.indexOf(closer);
-        if (closer <= spaceRadius) return { index: index, value: closer };
+       const centerHitBoxNear=  this.centerBox(this.myMap.hitBox,index);
+        console.log(centerHitBoxNear);
+        // const centerHitBoxNear = this.myMap.hitBox.forEach((element,index) => {console.log(index);});
+        // console.log(centerHitBoxNear);
+        if (closer <= spaceRadius) return { index: index, value: closer, hitBoxNear: centerHitBoxNear };
         return "tofar";
     }
-    syncDistance(myPos, box) {
+    centerBox(element,index){
+        if(element[index]!=undefined){
+            console.log(element);
+            return   element[index].getBounds().getCenter();
+        }
+    }
+    syncDistance(box,myPos) {
         const centerL = box.getBounds().getCenter();
         return myPos.distanceTo(centerL);
     }
@@ -120,23 +132,27 @@ class MOBILE {
         element.sample.initSpeed(presetSpeed)
     }
 
-    listenMyCompass(compass) {
+    listenMyCompass(hitBoxNear) {
         const search = () => {
             setTimeout(() => {
+
                 const orientation = this.myCompass.compassLoad()
-                if (orientation != undefined) this.syncWithCompass(orientation);
+                if (orientation != undefined) {
+                    this.myMap.changeOrientation(orientation);
+                    this.compassPoint(hitBoxNear);
+                };
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }
         search();
     }
-    syncWithCompass(orientation) {
-        const reorientation = orientation - 180;
+    compassPoint(hitBoxNear) {
+        // const compassP = this.myCompass.position.coords;
+        // const currentPosition = { lat: compassP.latitude, lng: compassP.longitude };
+        console.log(hitBoxNear);
+        // this.myCompass.getBearingToDestination(currentPosition, { lat: 51.507278, lng: -0.127821 })
+        myRotate(this.partition.title.element, orientation - 180);
 
-        console.log(orientation, reorientation);
-        this.partition.title.element.style = " transform: rotate(" + reorientation + "deg)";
-        // myRotate(this.partition.title.element, orientation);
-        this.myMap.changeOrientation(orientation);
     }
     myConsole() {
         const myButton = document.querySelector("#myConsole");
