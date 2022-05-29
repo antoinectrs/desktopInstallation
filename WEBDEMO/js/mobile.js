@@ -12,9 +12,17 @@ class MOBILE {
         this.myCompass;
         this.myPosition();
         this.autorisePlay = false;
-        this.myConsole();
-        this.spaceRadius = 50;
+        // this.myConsole();
+        this.spaceRadius = 500;
         this.createMap = false;
+        this.partition = {
+            title: {
+                element: searchHtml("#title"),
+                content: null,
+            },
+            verse: null,
+        }
+
     }
 
     checkRoad() { this.autorisePlay = true }
@@ -25,24 +33,25 @@ class MOBILE {
     }
     manager(pos) {
         if (this.createMap == false) {
-            this.myMap.init(pos.coords.latitude, pos.coords.longitude,10);
+            this.myMap.init(pos.coords.latitude, pos.coords.longitude, 10);
             this.myMap.boxTest();
             this.myCompass = new myCompass();
             this.listenMyCompass(this.myCompass);
             this.createMap = true;
-     
         }
         this.getAltittude(pos);
         this.centerMap(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
+        console.log(catchCloserPoint);
         if (catchCloserPoint != "tofar") {
             this.renderPoint(catchCloserPoint.index);
+            this.setTitlePartition(catchCloserPoint.index);
             // hideBlur(this.mapDom, "remove");
         }
         else {
             this.releasePoint();
-            this.myDebug("range", "tofar");
+            // this.myDebug("range", "tofar");
             // hideBlur(this.mapDom, "add");
         }
     }
@@ -50,7 +59,7 @@ class MOBILE {
         // console.log(pos.coords.accuracy);
         const altitude = pos.coords.altitude
         if (altitude) {
-            this.myDebug("alt", altitude)
+            // this.myDebug("alt", altitude)
             return altitude;
         }
     }
@@ -66,11 +75,11 @@ class MOBILE {
         //         "duration": 10
         //     }
         // });
-               // this.myMap.map.setBearing(90);
-        this.myMap.map.flyTo(convertPos, 13, {
+        // this.myMap.map.setBearing(90);
+        this.myMap.map.flyTo(convertPos, 18, {
             animate: true,
             duration: 1.5
-    });
+        });
     }
     closerPoint(myLatlng, spaceRadius) {
         const hitBoxArray = this.myMap.hitBox.map(element => this.syncDistance(myLatlng, element, 70))
@@ -106,7 +115,7 @@ class MOBILE {
         const targetSpeed = this.preset[index].mySpeed;
         const presetSpeed = targetSpeed[scale];
 
-        this.myDebug("range", scale);
+        // this.myDebug("range", scale);
         element.sample.render(presetVolume, 1);
         element.sample.initSpeed(presetSpeed)
     }
@@ -115,11 +124,19 @@ class MOBILE {
         const search = () => {
             setTimeout(() => {
                 const orientation = this.myCompass.compassLoad()
-                if (orientation != undefined) this.myMap.changeOrientation(orientation);
+                if (orientation != undefined) this.syncWithCompass(orientation);
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }
         search();
+    }
+    syncWithCompass(orientation) {
+        const reorientation = orientation - 180;
+
+        console.log(orientation, reorientation);
+        this.partition.title.element.style = " transform: rotate(" + reorientation + "deg)";
+        // myRotate(this.partition.title.element, orientation);
+        this.myMap.changeOrientation(orientation);
     }
     myConsole() {
         const myButton = document.querySelector("#myConsole");
@@ -136,9 +153,14 @@ class MOBILE {
         })
     }
     myDebug(target, value) {
-        document.getElementById(target).innerHTML = value;
+        searchHtml("#" + target).innerHTML = value;
+        // document.getElementById(target).innerHTML = value;
     }
 
     //  ----------- DOM --------------------
-
+    setTitlePartition(indexZone) {
+        const changeStreet = this.preset[indexZone].street;
+        // console.log(   searchHtml("#title"));
+        this.partition.title.element.innerHTML = changeStreet;
+    };
 }

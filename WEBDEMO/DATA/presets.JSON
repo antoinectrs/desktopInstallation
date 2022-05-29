@@ -1,8 +1,8 @@
 {
   "tracks": [
-    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 90 },
-    { "volume": [5000, 1000, 0, 0, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": -90 },
-    { "volume": [0, 0, 0, 1000, 5000], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0 },
-    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0 }
+    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 90, "street":"à sous l'eglise" },
+    { "volume": [5000, 1000, 0, 0, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": -90, "street":"à sous l'eglise" },
+    { "volume": [0, 0, 0, 1000, 5000], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0, "street":"à sous l'eglise" },
+    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0, "street":"à sous l'eglise" }
   ]
 }
