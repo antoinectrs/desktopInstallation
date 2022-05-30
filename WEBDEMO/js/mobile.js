@@ -180,5 +180,14 @@ class MOBILE {
     setVersePartition(indexZone) {
         const changeDom = this.preset[indexZone].verse;
         this.partition.verse.element[indexZone].innerHTML = changeDom;
+        this.preset.forEach((e, index) => {
+            const myString = String(e.verse);
+            const htmlString = this.partition.verse.element[index].textContent;
+            // console.log(String(myString), htmlString);
+            if(myString!=htmlString){
+                this.partition.verse.element[index].innerHTML=e.verse;
+            }
+        });
+        
     };
 }
