@@ -13,7 +13,7 @@ class MOBILE {
         this.myPosition();
         this.autorisePlay = false;
         // this.myConsole();
-        this.spaceRadius = 500;
+        this.spaceRadius = 4500;
         this.createMap = false;
         this.partition = {
             title: {
@@ -48,6 +48,7 @@ class MOBILE {
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
 
         if (catchCloserPoint != "tofar") {
+            console.log("inside");
             this.renderPoint(catchCloserPoint.index);
             this.setTitlePartition(catchCloserPoint.index);
             this.setVersePartition(catchCloserPoint.index);
@@ -178,12 +179,16 @@ class MOBILE {
         this.partition.title.element.innerHTML = changeDom;
     };
     setVersePartition(indexZone) {
-        const changeDom = this.preset[indexZone].verse;
-        this.partition.verse.element[indexZone].innerHTML = changeDom;
+        // const changeDom = this.preset[indexZone].verse;
+        // this.partition.verse.element[indexZone].innerHTML = changeDom;
+        const target = this.partition.verse.element[indexZone];
+        const debugT = document.getElementById("myEnd");
+        const toScroll = document.querySelector(".dynamic");
+        SmoothVerticalScrolling(debugT,toScroll, 4000, "top")
         this.preset.forEach((e, index) => {
             const myString = String(e.verse);
             const htmlString = this.partition.verse.element[index].textContent;
-            // console.log(String(myString), htmlString);
+            //REMPLACE TEXT 
             if(myString!=htmlString){
                 this.partition.verse.element[index].innerHTML=e.verse;
             }

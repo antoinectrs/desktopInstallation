@@ -107,11 +107,7 @@ input[type=range][orient=vertical] {
 }
 
 .parent {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    display: flex;  
 }
 
 .carte {
@@ -169,16 +165,16 @@ input[type=range][orient=vertical] {
     position: absolute;
     display: flex;
     flex-direction: column;
+    scroll-behavior: smooth;
   
 }
 .dynamic p {
-    transition: 1s;
     background: #ffffff;
     width: fit-content;
     align-self: center;
-    margin-right: 80%;
+    margin-right: 0%;
     transition: 2s;
-    font-size: 2em;
+    font-size: 9vw;
 }
 
 .description .content h1 {
