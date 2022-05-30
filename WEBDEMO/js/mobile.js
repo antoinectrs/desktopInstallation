@@ -20,7 +20,10 @@ class MOBILE {
                 element: searchHtml("#title"),
                 content: null,
             },
-            verse: null,
+            verse: {
+                element: searchHtmlArray(".dynamic p"),
+                content: null,
+            },
         }
 
     }
@@ -47,6 +50,7 @@ class MOBILE {
         if (catchCloserPoint != "tofar") {
             this.renderPoint(catchCloserPoint.index);
             this.setTitlePartition(catchCloserPoint.index);
+            this.setVersePartition(catchCloserPoint.index);
             this.listenMyCompass(catchCloserPoint.hitBoxNear);
             // hideBlur(this.mapDom, "remove");
         }
@@ -134,23 +138,20 @@ class MOBILE {
                 const orientation = this.myCompass.compassLoad()
                 if (orientation != undefined) {
                     this.myMap.changeOrientation(orientation);
-                    this.compassPoint(orientation,hitBoxNear);
+                    this.compassPoint(hitBoxNear);
                 };
                 requestAnimationFrame(search)
             }, 1000 / 15);
         }
         search();
     }
-    compassPoint(orientation,hitBoxNear) {
-        // console.log(this.myCompass.myCompass.position.coords);
+    compassPoint(hitBoxNear) {
         const comp = this.myCompass.myCompass;
         const compassP = comp.position.coords
         const currentPosition = { lat: compassP.latitude, lng: compassP.longitude };
-        
-       const targetAngle =  comp.getBearingToDestination(currentPosition, { lat:hitBoxNear.lat, lng: hitBoxNear.lng })
-       myRotate(this.partition.title.element, targetAngle);
-    //    myRotate(this.partition.title.element, orientation - 180);
 
+        const targetAngle = comp.getBearingToDestination(currentPosition, { lat: hitBoxNear.lat, lng: hitBoxNear.lng })
+        myRotate(this.partition.title.element, targetAngle); // default remplacer par "orientation" 
     }
     myConsole() {
         const myButton = document.querySelector("#myConsole");
@@ -173,8 +174,11 @@ class MOBILE {
 
     //  ----------- DOM --------------------
     setTitlePartition(indexZone) {
-        const changeStreet = this.preset[indexZone].street;
-        // console.log(   searchHtml("#title"));
-        this.partition.title.element.innerHTML = changeStreet;
+        const changeDom = this.preset[indexZone].title;
+        this.partition.title.element.innerHTML = changeDom;
+    };
+    setVersePartition(indexZone) {
+        const changeDom = this.preset[indexZone].verse;
+        this.partition.verse.element[indexZone].innerHTML = changeDom;
     };
 }
