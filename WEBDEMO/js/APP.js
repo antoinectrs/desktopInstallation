@@ -49,8 +49,8 @@ class APP {
 
 
     loadData() {
-        // fetch('./DATA/data.JSON')
-        fetch('./DATA/prelaz.JSON')
+        fetch('./DATA/data.JSON')
+        // fetch('./DATA/prelaz.JSON')
             .then(response => response.json())
             .then(data => {
                 const JSdata = data;

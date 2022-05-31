@@ -107,7 +107,7 @@ input[type=range][orient=vertical] {
 }
 
 .parent {
-    display: flex;  
+    display: flex;
 }
 
 .carte {
@@ -139,7 +139,8 @@ input[type=range][orient=vertical] {
 .description .content {
     align-self: center;
 }
-.description .content .static{
+
+.description .content .static {
     border-radius: 451px;
     padding-right: 3%;
     padding-left: 3%;
@@ -152,11 +153,11 @@ input[type=range][orient=vertical] {
     /* transform: rotate(45deg); */
     transition: 1s;
 }
- .dynamic{
-     width: 100%;
-     height: 100vh;
-     opacity: 0.5;
 
+.dynamic {
+    width: 100%;
+    height: 100vh;
+    opacity: 0.5;
     overflow: scroll;
     /* background: #00d4ff; */
     /* padding-right: 100%;
@@ -166,8 +167,8 @@ input[type=range][orient=vertical] {
     display: flex;
     flex-direction: column;
     scroll-behavior: smooth;
-  
 }
+
 .dynamic p {
     background: #ffffff;
     width: fit-content;
@@ -178,7 +179,7 @@ input[type=range][orient=vertical] {
 }
 
 .description .content h1 {
-    font-size: 14vw;
+    font-size: 12vw;
     font-weight: initial;
     /* font-variant-caps: titling-caps; */
     margin: 0;
@@ -312,7 +313,7 @@ path.leaflet-interactive:last-child {
 }
 
 .leaflet-control-container {
-    /* display: none; */
+    display: none;
 }
 
 #conteneur {
@@ -334,9 +335,11 @@ path.leaflet-interactive:last-child {
 
 .console {
     border: 1px solid;
-    top: 20%;
+    bottom: 0%;
+    right: 0%;
     height: 20%;
-    width: 50%;
+    width: 100%;
+    -webkit-backdrop-filter: blur(20px);
     position: fixed;
 }
 
@@ -384,6 +387,29 @@ path.leaflet-interactive:last-child {
         /* filter:  blur(48.1px) contrast(1.34);   */
         /* transition: 2s ease; */
     }
+    .simu{
+        display: none;
+    }
+    #range, #alt {
+        margin-right: 0;
+        width: 50%;
+        display: inline-block;
+
+        position: initial;
+        }
+    .console {
+        border: 1px solid;
+        bottom: 0%;
+        right: 0%;
+        height: 20%;
+        width: 100%;
+        display: flex;
+        align-content: auto;
+        justify-content: center;
+        align-self: center;
+        -webkit-backdrop-filter: blur(20px);
+        position: fixed;
+        }
     path.leaflet-interactive {
         stroke: #e91707 !important;
         /* stroke-width: 77%;  */

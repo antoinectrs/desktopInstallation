@@ -12,9 +12,10 @@ class MOBILE {
         this.myCompass;
         this.myPosition();
         this.autorisePlay = false;
-        // this.myConsole();
-        this.spaceRadius = 4500;
+        this.myConsole();
+        this.spaceRadius = 50;
         this.createMap = false;
+        this.inPath = false;
         this.partition = {
             title: {
                 element: searchHtml("#title"),
@@ -48,7 +49,9 @@ class MOBILE {
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
 
         if (catchCloserPoint != "tofar") {
-            console.log("inside");
+            // console.log("inside");
+            this.inPath = true;
+          
             this.renderPoint(catchCloserPoint.index);
             this.setTitlePartition(catchCloserPoint.index);
             this.setVersePartition(catchCloserPoint.index);
@@ -56,10 +59,11 @@ class MOBILE {
             // hideBlur(this.mapDom, "remove");
         }
         else {
+            this.inPath = false;
             this.releasePoint();
-            // this.myDebug("range", "tofar");
             // hideBlur(this.mapDom, "add");
         }
+        myDebug("path", this.inPath);
     }
     getAltittude(pos) {
         // console.log(pos.coords.accuracy);
@@ -74,14 +78,6 @@ class MOBILE {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude
         }
-        console.log("new");
-        // this.myMap.map.setView(convertPos, this.myMap.map.getZoom(), {
-        //     "animate": true,
-        //     "pan": {
-        //         "duration": 10
-        //     }
-        // });
-        // this.myMap.map.setBearing(90);
         this.myMap.map.flyTo(convertPos, 18, {
             animate: true,
             duration: 1.5
@@ -111,7 +107,6 @@ class MOBILE {
             };
         })
         if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(0, 1);
-        // this.idRoute = boxIndex;
     }
     releasePoint() {
         if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(5000, 1);
@@ -135,7 +130,6 @@ class MOBILE {
     listenMyCompass(hitBoxNear) {
         const search = () => {
             setTimeout(() => {
-
                 const orientation = this.myCompass.compassLoad()
                 if (orientation != undefined) {
                     this.myMap.changeOrientation(orientation);
@@ -150,9 +144,12 @@ class MOBILE {
         const comp = this.myCompass.myCompass;
         const compassP = comp.position.coords
         const currentPosition = { lat: compassP.latitude, lng: compassP.longitude };
-
-        const targetAngle = comp.getBearingToDestination(currentPosition, { lat: hitBoxNear.lat, lng: hitBoxNear.lng })
-        myRotate(this.partition.title.element, targetAngle); // default remplacer par "orientation" 
+        let targetAngle = 0;
+        if (this.inPath==false) {
+            targetAngle = comp.getBearingToDestination(currentPosition, { lat: hitBoxNear.lat, lng: hitBoxNear.lng });
+            console.log(targetAngle);
+        }
+        myRotate(this.partition.title.element, targetAngle);
     }
     myConsole() {
         const myButton = document.querySelector("#myConsole");
@@ -168,31 +165,31 @@ class MOBILE {
             this.manager(pos);
         })
     }
-    myDebug(target, value) {
-        searchHtml("#" + target).innerHTML = value;
-        // document.getElementById(target).innerHTML = value;
-    }
-
     //  ----------- DOM --------------------
     setTitlePartition(indexZone) {
         const changeDom = this.preset[indexZone].title;
         this.partition.title.element.innerHTML = changeDom;
     };
+    checkContentText(e, index) {
+        const myString = String(e.verse);
+        const pointHtml = this.partition.verse.element[index];
+        const htmlString = pointHtml.textContent;
+        if (myString != htmlString)      //REMPLACE TEXT 
+            pointHtml.innerHTML = e.verse;
+    }
+    // searchIdScroll(element) {
+    //     const pointHtml = this.partition.verse.element[index];
+    //     if (element ==pointHtml)
+    // }
     setVersePartition(indexZone) {
-        // const changeDom = this.preset[indexZone].verse;
-        // this.partition.verse.element[indexZone].innerHTML = changeDom;
+        this.preset.forEach((e, index) => { this.checkContentText(e, index) });
+        // this.searchIdScroll();
+
         const target = this.partition.verse.element[indexZone];
-        const debugT = document.getElementById("myEnd");
+        console.log(target);
+        // myDebug("range", target);
+        // const debugT = document.getElementById("myEnd");
         const toScroll = document.querySelector(".dynamic");
-        SmoothVerticalScrolling(debugT,toScroll, 4000, "top")
-        this.preset.forEach((e, index) => {
-            const myString = String(e.verse);
-            const htmlString = this.partition.verse.element[index].textContent;
-            //REMPLACE TEXT 
-            if(myString!=htmlString){
-                this.partition.verse.element[index].innerHTML=e.verse;
-            }
-        });
-        
+        SmoothVerticalScrolling(target, toScroll, 10000, "top")
     };
 }
