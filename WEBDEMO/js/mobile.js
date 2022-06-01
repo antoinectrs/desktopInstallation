@@ -212,7 +212,10 @@ class MOBILE {
 
         function frame() {
             if (pos == 100) {
-                this.iteration++;
+                if (this.iteration < this.vocalPoint.length-1) this.iteration++;
+                else this.iteration = 0;
+
+                console.log(this.vocalPoint.length);
                 // this.changeHtml();
                 // speakText(myText[i])
                 // noPoint.sample.playSample(0);
@@ -220,10 +223,10 @@ class MOBILE {
                 // this.vocalPoint[0].sample.playSample(0);
                 // this.vocalPoint[0].sample.render(5000, 1);
 
-                this.vocalPoint[0].sample.playSample(0);
-                this.vocalPoint[0].sample.initOrientation(0);
-                
-                this.vocalPoint[0].sample.render(5000, 1);
+                this.vocalPoint[this.iteration].sample.playSample(0);
+                this.vocalPoint[this.iteration].sample.initOrientation(0);
+
+                this.vocalPoint[this.iteration].sample.render(5000, 1);
                 // console.log( this.vocalPoint);
                 // console.log(this.point[0].sample).playSample(0);
                 // pElement.textContent = myText[i];

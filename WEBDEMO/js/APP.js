@@ -23,6 +23,11 @@ class APP {
     }
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
+
+            // this.vocalPoint.forEach((element, index) => {
+                // element.sample.playSample(0);
+                // element.sample.initOrientation(this.preset[index].binaural);
+            // });
             this.point.forEach((element, index) => {
                 element.sample.playSample(0);
                 element.sample.initOrientation(this.preset[index].binaural);
@@ -31,10 +36,6 @@ class APP {
             this.noPoint.sample.playSample(0);
             this.noPoint.sample.initOrientation(0);
 
-            this.vocalPoint.forEach((element, index) => {
-                element.sample.playSample(0);
-                element.sample.initOrientation(this.preset[index].binaural);
-            });
             // this.vocalPoint.sample.playSample(0);
             // this.vocalPoint.sample.initOrientation(0);
 
