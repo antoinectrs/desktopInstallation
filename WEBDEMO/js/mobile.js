@@ -189,7 +189,7 @@ class MOBILE {
         const htmlString = pointHtml.textContent;
         if (myString != htmlString)      //REMPLACE TEXT 
             pointHtml.innerHTML = e.verse;
-    }
+    };
     setVersePartition(indexZone) {
         this.preset.forEach((e, index) => { this.checkContentText(e, index) });
 
@@ -206,25 +206,29 @@ class MOBILE {
         const elem = document.getElementById("target");
         const pElement = document.querySelector("#target p");
         let pos = -10;
-
+        const testBinau = [0, 70, 180, 280]
         clearInterval(this.id);
         id = setInterval(frame.bind(this), 15);
 
         function frame() {
             if (pos == 100) {
-                if (this.iteration < this.vocalPoint.length-1) this.iteration++;
+                if (this.iteration < this.vocalPoint.length - 1) this.iteration++;
                 else this.iteration = 0;
 
-                console.log(this.vocalPoint.length);
-                // this.changeHtml();
+                // console.log(this.vocalPoint.length);
+
                 // speakText(myText[i])
                 // noPoint.sample.playSample(0);
                 // console.log(this.vocalPoint);
                 // this.vocalPoint[0].sample.playSample(0);
                 // this.vocalPoint[0].sample.render(5000, 1);
+                const myRot = mapRange(this.iteration, 0, 4, 0, 360)
+                elem.textContent =this.vocalPoint[this.iteration].sample.path
+                // console.log(this.vocalPoint[this.iteration].sample.path);
 
                 this.vocalPoint[this.iteration].sample.playSample(0);
-                this.vocalPoint[this.iteration].sample.initOrientation(0);
+                // this.vocalPoint[this.iteration].sample.initSpeed(mySpeed)
+                this.vocalPoint[this.iteration].sample.initOrientation(myRot);
 
                 this.vocalPoint[this.iteration].sample.render(5000, 1);
                 // console.log( this.vocalPoint);
@@ -233,7 +237,7 @@ class MOBILE {
                 clearInterval(id);
                 this.myMove()
             } else {
-                pos++;
+                pos += 0.5;
                 // posX= Math.cos(Math.PI*(pos/50))*30
                 // console.log(M );
                 // elem.style.transform = "translateY(" + pos + "vh)";
@@ -242,10 +246,4 @@ class MOBILE {
             }
         }
     }
-    // changeHtml() {
-    //     if (i <= myText.length - 1)
-    //       i++;
-    //     else
-    //       i = 0;
-    //   }
 }

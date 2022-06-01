@@ -25,8 +25,8 @@ class APP {
         document.querySelector(target).addEventListener(trigger, (event) => {
 
             // this.vocalPoint.forEach((element, index) => {
-                // element.sample.playSample(0);
-                // element.sample.initOrientation(this.preset[index].binaural);
+            // element.sample.playSample(0);
+            // element.sample.initOrientation(this.preset[index].binaural);
             // });
             this.point.forEach((element, index) => {
                 element.sample.playSample(0);
@@ -48,26 +48,35 @@ class APP {
 
     initPoint(musicList, preset) {
         this.point = musicList.map(function (music, preset) {
-            return { "sample": new Sample(music,true) }// "graphic": new Circle(),// "space": new Space(2),
+            return { "sample": new Sample(music, true) }// "graphic": new Circle(),// "space": new Space(2),
         });
         // this.loadTrack(this.point.sample);
         this.point.forEach(element => {
             element.sample.requestTrack()
         });
-        this.noPoint = { "sample": new Sample(this.noise,true) };
+        this.noPoint = { "sample": new Sample(this.noise, true) };
         this.noPoint.sample.requestTrack();
         if (this.statut == "mobile") this.initVocals();
     }
     initVocals() {
-        this.vocalPoint = this.vocalList.map(function (list, preset) {
-            return { "sample": new Sample(list,false) }// "graphic": new Circle(),// "space": new Space(2),
-        });
-        this.vocalPoint.forEach(element => {
+        setTimeout(() => {
+            this.preset[0].voice.forEach(e => {
+                console.log(e);
+            });
+            this.vocalPoint = this.preset[0].voice.map(e => {
+                return { "sample": new Sample(e, false) }
+            })
+            this.vocalPoint.forEach(element => {
                 element.sample.requestTrack()
             });
-            // this.vocalPoint = { "sample": new Sample(this.vocalList) };
-            // this.vocalPoint.sample.requestTrack();
-            console.log( this.vocalPoint);
+            this.demo.vocalPoint =  this.vocalPoint;
+            console.log(this.vocalPoint);
+        }, 500);
+
+        // this.vocalPoint = this.vocalList.map(function (list, preset) {
+        //     return { "sample": new Sample(list, false) }// "graphic": new Circle(),// "space": new Space(2),
+        // });
+
     }
 
 
@@ -97,7 +106,7 @@ class APP {
             // this.myMap.init();
             // this.myMap.boxTest();
 
-            this.demo = new MOBILE(this.myMap, this.point, this.noPoint, this.vocalPoint);
+            this.demo = new MOBILE(this.myMap, this.point, this.noPoint);
         } else {
             console.log(this.myMap);
             this.myMap.init();

@@ -1,8 +1,8 @@
 {
   "tracks": [
-    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 90, "title":"à sous l'eglise", "verse":"first" },
-    { "volume": [5000, 1000, 0, 0, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": -90, "title":"à sous l'eglise", "verse":"seconde" },
-    { "volume": [0, 0, 0, 1000, 5000], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0, "title":"à sous l'eglise", "verse":"third" },
-    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0, "title":"à sous l'eglise", "verse":"fith" }
+    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 90, "title":"à sous l'eglise", "verse":"first", "voice": ["lechemin", "quidescend", "enface", "quimonte"] },
+    { "volume": [5000, 1000, 0, 0, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": -90, "title":"à sous l'eglise", "verse":"seconde", "voice": ["lechemin", "quidescend", "enface", "quimonte"]},
+    { "volume": [0, 0, 0, 1000, 5000], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0, "title":"à sous l'eglise", "verse":"third","voice": ["lechemin", "quidescend", "enface", "quimonte"] },
+    { "volume": [0, 1000, 5000, 1000, 0], "mySpeed": [1, 0.8,0.7, 0.6,0.5], "binaural": 0, "title":"à sous l'eglise", "verse":"fith","voice": ["lechemin", "quidescend", "enface", "quimonte"] }
   ]
 }
