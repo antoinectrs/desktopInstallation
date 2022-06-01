@@ -7,9 +7,9 @@ class APP {
         this.myMap;
         this.point = [];
 
-        this.musicList = ["01", "lechemin", "lechemin", "04"];
+        this.musicList = ["01", "02", "03", "04"];
         this.noise = "wait";
-        this.vocalList = "lechemin";
+        this.vocalList = ["lechemin", "quidescend", "enface", "quimonte"];
         this.noPoint;
         this.vocalPoint;
         this.preset;
@@ -31,8 +31,12 @@ class APP {
             this.noPoint.sample.playSample(0);
             this.noPoint.sample.initOrientation(0);
 
-            this.vocalPoint.sample.playSample(0);
-            this.vocalPoint.sample.initOrientation(0);
+            this.vocalPoint.forEach((element, index) => {
+                element.sample.playSample(0);
+                element.sample.initOrientation(this.preset[index].binaural);
+            });
+            // this.vocalPoint.sample.playSample(0);
+            // this.vocalPoint.sample.initOrientation(0);
 
             this.demo.preset = this.preset;
             this.demo.checkRoad();
@@ -43,25 +47,25 @@ class APP {
 
     initPoint(musicList, preset) {
         this.point = musicList.map(function (music, preset) {
-            return { "sample": new Sample(music) }// "graphic": new Circle(),// "space": new Space(2),
+            return { "sample": new Sample(music,true) }// "graphic": new Circle(),// "space": new Space(2),
         });
         // this.loadTrack(this.point.sample);
         this.point.forEach(element => {
             element.sample.requestTrack()
         });
-        this.noPoint = { "sample": new Sample(this.noise) };
+        this.noPoint = { "sample": new Sample(this.noise,true) };
         this.noPoint.sample.requestTrack();
         if (this.statut == "mobile") this.initVocals();
     }
     initVocals() {
-        // this.vocalPoint = list.map(function (list, preset) {
-        //     return { "sample": new Sample(list) }// "graphic": new Circle(),// "space": new Space(2),
-        // });
-        // this.vocalPoint.forEach(element => {
-            //     element.sample.requestTrack()
-            // });
-            this.vocalPoint = { "sample": new Sample(this.vocalList) };
-            this.vocalPoint.sample.requestTrack();
+        this.vocalPoint = this.vocalList.map(function (list, preset) {
+            return { "sample": new Sample(list,false) }// "graphic": new Circle(),// "space": new Space(2),
+        });
+        this.vocalPoint.forEach(element => {
+                element.sample.requestTrack()
+            });
+            // this.vocalPoint = { "sample": new Sample(this.vocalList) };
+            // this.vocalPoint.sample.requestTrack();
             console.log( this.vocalPoint);
     }
 

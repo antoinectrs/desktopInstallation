@@ -1,6 +1,6 @@
 
 class Sample {
-    constructor(path, orientation) {
+    constructor(path,isLooping, orientation) {
         this.audio = new (AudioContext || webkitAudioContext || mozAudioContext)(),
             this.binauralFIRNode = null,
             this.path = path;
@@ -8,6 +8,7 @@ class Sample {
         this.sampleBuffer;
         this.sourceNode;
         this.onRoad = false;
+        this.isLooping= isLooping;
         this.rack = {
             filter: {
                 varFreq: 40,
@@ -70,7 +71,7 @@ class Sample {
         this.binauralFIRNode.connect(this.rack.filter.audioNode);
         this.rack.filter.audioNode.connect(this.audio.destination);
         // this.binauralFIRNode.connect(this.audio.destination);  //SOURCE  
-        this.sourceNode.loop = true;
+        this.sourceNode.loop = this.isLooping;
         this.sourceNode.start(0, decay);
     }
     initEffect(bufferSrc) {

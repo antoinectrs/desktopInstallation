@@ -1,6 +1,6 @@
 // ---------------- MOBILE -----------------    
 class MOBILE {
-    constructor(myMap, point, noPoint,vocalPoint) {
+    constructor(myMap, point, noPoint, vocalPoint) {
         this.myMap = myMap;
         // this.mapDom = searchHtml("#map .leaflet-pane");
         // hideBlur(this.mapDom, "add");
@@ -27,11 +27,11 @@ class MOBILE {
                 content: null,
             },
         }
-        this.i=0;
-       
+        this.iteration = 0;
+
     }
 
-    checkRoad() { 
+    checkRoad() {
         // this.autorisePlay = true ; 
         this.myMove()
     }
@@ -209,17 +209,22 @@ class MOBILE {
 
         clearInterval(this.id);
         id = setInterval(frame.bind(this), 15);
-       
+
         function frame() {
             if (pos == 100) {
+                this.iteration++;
                 // this.changeHtml();
                 // speakText(myText[i])
                 // noPoint.sample.playSample(0);
                 // console.log(this.vocalPoint);
                 // this.vocalPoint[0].sample.playSample(0);
                 // this.vocalPoint[0].sample.render(5000, 1);
-                this.vocalPoint.sample.render(5000, 1)
-                console.log( this.vocalPoint);
+
+                this.vocalPoint[0].sample.playSample(0);
+                this.vocalPoint[0].sample.initOrientation(0);
+                
+                this.vocalPoint[0].sample.render(5000, 1);
+                // console.log( this.vocalPoint);
                 // console.log(this.point[0].sample).playSample(0);
                 // pElement.textContent = myText[i];
                 clearInterval(id);
@@ -233,7 +238,7 @@ class MOBILE {
                 // elem.style.left = pos +  "px"; 
             }
         }
-    }   
+    }
     // changeHtml() {
     //     if (i <= myText.length - 1)
     //       i++;
