@@ -138,6 +138,7 @@ input[type=range][orient=vertical] {
 
 .description .content {
     align-self: center;
+    position:absolute;
 }
 
 .description .content .static {
@@ -371,7 +372,7 @@ path.leaflet-interactive:last-child {
         pointer-events: none;
     }
     p {
-        font-size: 3em;
+        font-size: 12vw;
         font-weight: normal;
     }
     button[type=button] {

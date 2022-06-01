@@ -223,7 +223,7 @@ class MOBILE {
                 // this.vocalPoint[0].sample.playSample(0);
                 // this.vocalPoint[0].sample.render(5000, 1);
                 const myRot = mapRange(this.iteration, 0, 4, 0, 360)
-                elem.textContent =this.vocalPoint[this.iteration].sample.path
+                pElement.textContent =this.vocalPoint[this.iteration].sample.path
                 // console.log(this.vocalPoint[this.iteration].sample.path);
 
                 this.vocalPoint[this.iteration].sample.playSample(0);
