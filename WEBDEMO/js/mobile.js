@@ -1,6 +1,6 @@
 // ---------------- MOBILE -----------------    
 class MOBILE {
-    constructor(myMap, point, noPoint) {
+    constructor(myMap, point, noPoint,vocalPoint) {
         this.myMap = myMap;
         // this.mapDom = searchHtml("#map .leaflet-pane");
         // hideBlur(this.mapDom, "add");
@@ -8,6 +8,7 @@ class MOBILE {
 
         this.point = point;
         this.noPoint = noPoint;
+        this.vocalPoint = vocalPoint;
         this.preset;
         this.myCompass;
         this.myPosition();
@@ -26,10 +27,14 @@ class MOBILE {
                 content: null,
             },
         }
-
+        this.i=0;
+       
     }
 
-    checkRoad() { this.autorisePlay = true }
+    checkRoad() { 
+        // this.autorisePlay = true ; 
+        this.myMove()
+    }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
             if (this.autorisePlay) this.manager(pos);
@@ -37,33 +42,41 @@ class MOBILE {
     }
     manager(pos) {
         if (this.createMap == false) {
-            this.myMap.init(pos.coords.latitude, pos.coords.longitude, 10);
-            this.myMap.boxTest();
-            this.myCompass = new myCompass();
-            // this.listenMyCompass(pos);
-            this.createMap = true;
+            this.initMap(pos);
         }
         this.getAltittude(pos);
         this.centerMap(pos);
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
 
-        if (catchCloserPoint != "tofar") {
-            // console.log("inside");
-            this.inPath = true;
-          
-            this.renderPoint(catchCloserPoint.index);
-            this.setTitlePartition(catchCloserPoint.index);
-            this.setVersePartition(catchCloserPoint.index);
-            this.listenMyCompass(catchCloserPoint.hitBoxNear);
-            // hideBlur(this.mapDom, "remove");
-        }
-        else {
-            this.inPath = false;
-            this.releasePoint();
-            // hideBlur(this.mapDom, "add");
-        }
+        if (catchCloserPoint != "tofar")
+            this.inPathAction(catchCloserPoint)
+        else
+            this.outPathAction()
+
         myDebug("path", this.inPath);
+    }
+    initMap(pos) {
+        this.myMap.init(pos.coords.latitude, pos.coords.longitude, 10);
+        this.myMap.boxTest();
+        this.myCompass = new myCompass();
+        // this.listenMyCompass(pos);
+        this.createMap = true;
+    }
+    inPathAction(catchCloserPoint) {
+        // console.log("inside");
+        this.inPath = true;
+
+        this.renderPoint(catchCloserPoint.index);
+        this.setTitlePartition(catchCloserPoint.index);
+        this.setVersePartition(catchCloserPoint.index);
+        this.listenMyCompass(catchCloserPoint.hitBoxNear);
+        // hideBlur(this.mapDom, "remove");
+    }
+    outPathAction() {
+        this.inPath = false;
+        this.releasePoint();
+        // hideBlur(this.mapDom, "add")
     }
     getAltittude(pos) {
         // console.log(pos.coords.accuracy);
@@ -109,7 +122,7 @@ class MOBILE {
         if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(0, 1);
     }
     releasePoint() {
-        if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(5000, 1);
+        // if (this.noPoint.sample.audio.state != "suspended") this.noPoint.sample.render(5000, 1);
         this.point.forEach(element => {
             if (element.sample.audio.state != "suspended") element.sample.render(0, 0)
         })
@@ -145,7 +158,7 @@ class MOBILE {
         const compassP = comp.position.coords
         const currentPosition = { lat: compassP.latitude, lng: compassP.longitude };
         let targetAngle = 0;
-        if (this.inPath==false) {
+        if (this.inPath == false) {
             targetAngle = comp.getBearingToDestination(currentPosition, { lat: hitBoxNear.lat, lng: hitBoxNear.lng });
             console.log(targetAngle);
         }
@@ -177,13 +190,8 @@ class MOBILE {
         if (myString != htmlString)      //REMPLACE TEXT 
             pointHtml.innerHTML = e.verse;
     }
-    // searchIdScroll(element) {
-    //     const pointHtml = this.partition.verse.element[index];
-    //     if (element ==pointHtml)
-    // }
     setVersePartition(indexZone) {
         this.preset.forEach((e, index) => { this.checkContentText(e, index) });
-        // this.searchIdScroll();
 
         const target = this.partition.verse.element[indexZone];
         console.log(target);
@@ -192,4 +200,44 @@ class MOBILE {
         const toScroll = document.querySelector(".dynamic");
         SmoothVerticalScrolling(target, toScroll, 10000, "top")
     };
+
+    myMove() {
+        let id = null;
+        const elem = document.getElementById("target");
+        const pElement = document.querySelector("#target p");
+        let pos = -10;
+
+        clearInterval(this.id);
+        id = setInterval(frame.bind(this), 15);
+       
+        function frame() {
+            if (pos == 100) {
+                // this.changeHtml();
+                // speakText(myText[i])
+                // noPoint.sample.playSample(0);
+                // console.log(this.vocalPoint);
+                // this.vocalPoint[0].sample.playSample(0);
+                // this.vocalPoint[0].sample.render(5000, 1);
+                this.vocalPoint.sample.render(5000, 1)
+                console.log( this.vocalPoint);
+                // console.log(this.point[0].sample).playSample(0);
+                // pElement.textContent = myText[i];
+                clearInterval(id);
+                this.myMove()
+            } else {
+                pos++;
+                // posX= Math.cos(Math.PI*(pos/50))*30
+                // console.log(M );
+                // elem.style.transform = "translateY(" + pos + "vh)";
+                elem.style.transform = "translate(" + 0 + "vh," + pos + "vh)";
+                // elem.style.left = pos +  "px"; 
+            }
+        }
+    }   
+    // changeHtml() {
+    //     if (i <= myText.length - 1)
+    //       i++;
+    //     else
+    //       i = 0;
+    //   }
 }

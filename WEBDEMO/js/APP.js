@@ -6,16 +6,19 @@ class APP {
         console.log("vous êtes sur " + this.statut);
         this.myMap;
         this.point = [];
-        this.musicList = ["01", "02", "03", "04"];
+
+        this.musicList = ["01", "lechemin", "lechemin", "04"];
         this.noise = "wait";
+        this.vocalList = "lechemin";
         this.noPoint;
+        this.vocalPoint;
         this.preset;
         this.setUp();
     }
     setUp() {
         this.loadData();
         this.loadPreset();
-        this.initPoint(this.musicList, this.preset)
+        this.initPoint(this.musicList, this.preset);
         this.dom();
     }
     dom(target = "#playTrack", trigger = 'click') {
@@ -23,9 +26,14 @@ class APP {
             this.point.forEach((element, index) => {
                 element.sample.playSample(0);
                 element.sample.initOrientation(this.preset[index].binaural);
-            })
+            });
+
             this.noPoint.sample.playSample(0);
             this.noPoint.sample.initOrientation(0);
+
+            this.vocalPoint.sample.playSample(0);
+            this.vocalPoint.sample.initOrientation(0);
+
             this.demo.preset = this.preset;
             this.demo.checkRoad();
         });
@@ -43,14 +51,25 @@ class APP {
         });
         this.noPoint = { "sample": new Sample(this.noise) };
         this.noPoint.sample.requestTrack();
+        if (this.statut == "mobile") this.initVocals();
     }
-
+    initVocals() {
+        // this.vocalPoint = list.map(function (list, preset) {
+        //     return { "sample": new Sample(list) }// "graphic": new Circle(),// "space": new Space(2),
+        // });
+        // this.vocalPoint.forEach(element => {
+            //     element.sample.requestTrack()
+            // });
+            this.vocalPoint = { "sample": new Sample(this.vocalList) };
+            this.vocalPoint.sample.requestTrack();
+            console.log( this.vocalPoint);
+    }
 
 
 
     loadData() {
         fetch('./DATA/data.JSON')
-        // fetch('./DATA/prelaz.JSON')
+            // fetch('./DATA/prelaz.JSON')
             .then(response => response.json())
             .then(data => {
                 const JSdata = data;
@@ -72,7 +91,8 @@ class APP {
         if (statut == "mobile") {
             // this.myMap.init();
             // this.myMap.boxTest();
-            this.demo = new MOBILE(this.myMap, this.point, this.noPoint);
+
+            this.demo = new MOBILE(this.myMap, this.point, this.noPoint, this.vocalPoint);
         } else {
             console.log(this.myMap);
             this.myMap.init();

@@ -132,7 +132,7 @@ input[type=range][orient=vertical] {
     width: 100%;
     justify-content: center;
     /* grid-area: 1 / 3 / 2 / 4; */
-    pointer-events: none;
+    /* pointer-events: none; */
     font-family: selfMo;
 }
 
@@ -277,7 +277,7 @@ input[type=range][orient=vertical] {
 .leaflet-layer {
     /* opacity: 0.2 !important;     */
     /* display: none; */
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 path.leaflet-interactive {
@@ -309,7 +309,7 @@ path.leaflet-interactive:last-child {
 
 .leaflet-interactive {
     cursor: none!important;
-    pointer-events: none!important;
+    /* pointer-events: none!important; */
 }
 
 .leaflet-control-container {
@@ -367,6 +367,9 @@ path.leaflet-interactive:last-child {
         font-size: 3em;
         font-weight: normal;
     } */
+    .description {
+        pointer-events: none;
+    }
     p {
         font-size: 3em;
         font-weight: normal;

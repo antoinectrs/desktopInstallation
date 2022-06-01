@@ -15,6 +15,7 @@ class DEMO {
         element.addEventListener("mouseout", e => this.releasePoint());
     }
     renderPoint(element, boxIndex) {
+        console.log(boxIndex);
         this.point.forEach((element, index) => {
             if (element.sample.audio.state != "suspended")
                 this.asignPreset(index, boxIndex, element)
