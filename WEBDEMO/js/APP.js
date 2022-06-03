@@ -25,8 +25,6 @@ class APP {
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
             if (this.startListening == false) this.activeApp()
-
-            this.startListening=true;
         });
     }
     activeApp() {
@@ -41,6 +39,7 @@ class APP {
         this.noPoint.sample.initOrientation(0);
         this.demo.preset = this.preset;
         this.demo.checkRoad();
+        return this.startListening = true;
     }
     initPoint(musicList, preset) {
         this.point = musicList.map(function (music, preset) {
@@ -56,7 +55,6 @@ class APP {
     }
     initVocals() {
         setTimeout(() => {
-
             this.vocalPoint = this.preset[0].voice.map(e => {
                 return { "sample": new Sample(e.content, false) }
             })
@@ -66,15 +64,7 @@ class APP {
             this.demo.vocalPoint = this.vocalPoint;
             console.log(this.vocalPoint);
         }, 500);
-
-        // this.vocalPoint = this.vocalList.map(function (list, preset) {
-        //     return { "sample": new Sample(list, false) }// "graphic": new Circle(),// "space": new Space(2),
-        // });
-
     }
-
-
-
     loadData() {
         fetch('./DATA/data.JSON')
             // fetch('./DATA/prelaz.JSON')
@@ -99,7 +89,6 @@ class APP {
         if (statut == "mobile") {
             // this.myMap.init();
             // this.myMap.boxTest();
-
             this.demo = new MOBILE(this.myMap, this.point, this.noPoint);
         } else {
             console.log(this.myMap);

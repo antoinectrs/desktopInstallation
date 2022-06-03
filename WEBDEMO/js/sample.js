@@ -1,6 +1,6 @@
 
 class Sample {
-    constructor(path,isLooping, orientation) {
+    constructor(path, isLooping, orientation) {
         this.audio = new (AudioContext || webkitAudioContext || mozAudioContext)(),
             this.binauralFIRNode = null,
             this.path = path;
@@ -8,10 +8,10 @@ class Sample {
         this.sampleBuffer;
         this.sourceNode;
         this.onRoad = false;
-        this.isLooping= isLooping;
+        this.isLooping = isLooping;
         this.rack = {
             filter: {
-                varFreq: 40,
+                varFreq: 5000,
                 audioNode: null,
                 actual: 0,
             },
@@ -57,8 +57,6 @@ class Sample {
     playSample(decay, e, sampleRate) {
         if (sampleRate === undefined) sampleRate = 1;
         this.hrtf(sampleRate);
-        console.log("inside");
-
         //  -----------------------------------------               //INIT
         this.binauralFIRNode = new BinauralFIR({ audioContext: this.audio });
         this.binauralFIRNode.HRTFDataset = this.hrtfs;
@@ -89,6 +87,7 @@ class Sample {
 
         // audioNode.type = "lowshelf";
         audioNode.frequency.value = this.rack.filter.varFreq;
+
         // audioNode.frequency.setValueAtTime(1000, this.audio.currentTime);
         audioNode.gain.setValueAtTime(30, this.audio.currentTime);
         return audioNode
@@ -130,18 +129,19 @@ class Sample {
         });
     }
     async render(eFilter, eVolume) {
-        // fxTarget fxTemp                  fxType  
-        // console.log(this.rack.volume.audioNode.);
+
         // const filterRender = await this.softValue(eFilter, this.rack.filter.actual, this.rack.filter.audioNode.frequency);
         // http://alemangui.github.io/ramp-to-value
 
-        const node = this.rack.filter.audioNode.frequency
-        node.value=eFilter;
+        // THIS code
+        // const node = this.rack.filter.audioNode.frequency
+        // node.value=eFilter;
+        // node.linearRampToValueAtTime(eFilter + 0.0001, this.audio.currentTime + 10);
+        // THIS code
+
         // console.log(eFilter);
         // node.setValueAtTime(node.value+ 0.0001, this.audio.currentTime+ 10);
         // linearRampToValueAtTime
-        node.linearRampToValueAtTime(eFilter + 0.0001, this.audio.currentTime + 10);
-
 
         // node.exponentialRampToValueAtTime(eFilter + 0.0001, this.audio.currentTime + 1);
         // node.cancelScheduledValues(this.audio.currentTime)

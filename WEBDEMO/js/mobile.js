@@ -14,7 +14,7 @@ class MOBILE {
         this.myPosition();
         this.autorisePlay = false;
         // this.myConsole();
-        this.spaceRadius = 20;
+        this.spaceRadius = 100;
         this.createMap = false;
         this.inPath = false;
         this.partition = {
@@ -28,12 +28,10 @@ class MOBILE {
             },
         }
         this.iteration = 0;
-
     }
-
     checkRoad() {
-        // this.autorisePlay = true ; 
-        this.myMove();
+        this.autorisePlay = true ; 
+       
     }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
@@ -41,6 +39,7 @@ class MOBILE {
         })
     }
     manager(pos) {
+      
         if (this.createMap == false) {
             this.initMap(pos);
         }
@@ -49,26 +48,26 @@ class MOBILE {
         const myLatlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         const catchCloserPoint = this.closerPoint(myLatlng, this.spaceRadius); // / console.log(this.myMap.distance*4000);
 
-        if (catchCloserPoint != "tofar")
-            this.inPathAction(catchCloserPoint)
-        else
-            this.outPathAction()
+        // if (catchCloserPoint != "tofar")
+        //     this.inPathAction(catchCloserPoint)
+        // else
+        //     this.outPathAction()
 
         // myDebug("path", this.inPath);
     }
     initMap(pos) {
+        // this.myMove();
         this.myMap.init(pos.coords.latitude, pos.coords.longitude, 10);
         this.myMap.boxTest();
         this.myCompass = new myCompass();
         // this.listenMyCompass(pos);
-        this.createMap = true;
+        // this.createMap = true;
     }
     inPathAction(catchCloserPoint) {
         this.inPath = true;
-
         this.renderPoint(catchCloserPoint.index);
         this.setTitlePartition(catchCloserPoint.index);
-        this.setVersePartition(catchCloserPoint.index);
+        // this.setVersePartition(catchCloserPoint.index);  
         this.listenMyCompass(catchCloserPoint.hitBoxNear);
         // hideBlur(this.mapDom, "remove");
     }
@@ -135,6 +134,7 @@ class MOBILE {
         const presetSpeed = targetSpeed[scale];
 
         // this.myDebug("range", scale);
+        console.log(presetVolume);
         element.sample.render(presetVolume, 1);
         element.sample.initSpeed(presetSpeed)
     }
@@ -159,7 +159,7 @@ class MOBILE {
         let targetAngle = 0;
         if (this.inPath == false) {
             targetAngle = comp.getBearingToDestination(currentPosition, { lat: hitBoxNear.lat, lng: hitBoxNear.lng });
-            console.log(targetAngle);
+            // console.log(targetAngle);
         }
         myRotate(this.partition.title.element, targetAngle);
     }
@@ -200,6 +200,7 @@ class MOBILE {
     };
 
     myMove() {
+        console.log("inside");
         let id = null;
         const elem = document.getElementById("content");
         const pElement = document.querySelector("#target p");
