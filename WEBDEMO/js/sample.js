@@ -57,6 +57,7 @@ class Sample {
     playSample(decay, e, sampleRate) {
         if (sampleRate === undefined) sampleRate = 1;
         this.hrtf(sampleRate);
+        console.log("inside");
 
         //  -----------------------------------------               //INIT
         this.binauralFIRNode = new BinauralFIR({ audioContext: this.audio });
@@ -139,7 +140,6 @@ class Sample {
         // console.log(eFilter);
         // node.setValueAtTime(node.value+ 0.0001, this.audio.currentTime+ 10);
         // linearRampToValueAtTime
-        console.log(node.value);
         node.linearRampToValueAtTime(eFilter + 0.0001, this.audio.currentTime + 10);
 
 

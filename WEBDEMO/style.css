@@ -140,6 +140,12 @@ input[type=range][orient=vertical] {
     align-self: center;
     position:absolute;
 }
+#content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+}
 
 .description .content .static {
     border-radius: 451px;
@@ -388,7 +394,7 @@ path.leaflet-interactive:last-child {
         font-size: 4em;
     }
     .leaflet-pane {
-        /* filter:  blur(48.1px) contrast(1.34);   */
+        filter:  blur(48.1px) contrast(1.34);  
         /* transition: 2s ease; */
     }
     .simu{

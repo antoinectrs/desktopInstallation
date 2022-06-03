@@ -13,8 +13,8 @@ class MOBILE {
         this.myCompass;
         this.myPosition();
         this.autorisePlay = false;
-        this.myConsole();
-        this.spaceRadius = 50;
+        // this.myConsole();
+        this.spaceRadius = 20;
         this.createMap = false;
         this.inPath = false;
         this.partition = {
@@ -33,7 +33,7 @@ class MOBILE {
 
     checkRoad() {
         // this.autorisePlay = true ; 
-        this.myMove()
+        this.myMove();
     }
     myPosition() {
         navigator.geolocation.watchPosition(pos => {
@@ -54,7 +54,7 @@ class MOBILE {
         else
             this.outPathAction()
 
-        myDebug("path", this.inPath);
+        // myDebug("path", this.inPath);
     }
     initMap(pos) {
         this.myMap.init(pos.coords.latitude, pos.coords.longitude, 10);
@@ -64,7 +64,6 @@ class MOBILE {
         this.createMap = true;
     }
     inPathAction(catchCloserPoint) {
-        // console.log("inside");
         this.inPath = true;
 
         this.renderPoint(catchCloserPoint.index);
@@ -194,7 +193,6 @@ class MOBILE {
         this.preset.forEach((e, index) => { this.checkContentText(e, index) });
 
         const target = this.partition.verse.element[indexZone];
-        console.log(target);
         // myDebug("range", target);
         // const debugT = document.getElementById("myEnd");
         const toScroll = document.querySelector(".dynamic");
@@ -203,37 +201,28 @@ class MOBILE {
 
     myMove() {
         let id = null;
-        const elem = document.getElementById("target");
+        const elem = document.getElementById("content");
         const pElement = document.querySelector("#target p");
         let pos = -10;
-        const testBinau = [0, 70, 180, 280]
+        // const testBinau = [0, 70, 180, 280]
         clearInterval(this.id);
-        id = setInterval(frame.bind(this), 15);
-
+        id = setInterval(frame.bind(this), 25);
+   
         function frame() {
             if (pos == 100) {
                 if (this.iteration < this.vocalPoint.length - 1) this.iteration++;
                 else this.iteration = 0;
 
-                // console.log(this.vocalPoint.length);
-
-                // speakText(myText[i])
-                // noPoint.sample.playSample(0);
-                // console.log(this.vocalPoint);
-                // this.vocalPoint[0].sample.playSample(0);
-                // this.vocalPoint[0].sample.render(5000, 1);
                 const myRot = mapRange(this.iteration, 0, 4, 0, 360)
-                pElement.textContent =this.vocalPoint[this.iteration].sample.path
-                // console.log(this.vocalPoint[this.iteration].sample.path);
 
-                this.vocalPoint[this.iteration].sample.playSample(0);
-                // this.vocalPoint[this.iteration].sample.initSpeed(mySpeed)
+                elem.style.justifyContent=this.preset[0].voice[this.iteration].position;
+                pElement.textContent =this.preset[0].voice[this.iteration].content
+                
+                // this.noPoint.sample.render(5000, 1);
+                this.vocalPoint[this.iteration].sample.playSample(0);  
                 this.vocalPoint[this.iteration].sample.initOrientation(myRot);
-
                 this.vocalPoint[this.iteration].sample.render(5000, 1);
-                // console.log( this.vocalPoint);
-                // console.log(this.point[0].sample).playSample(0);
-                // pElement.textContent = myText[i];
+            
                 clearInterval(id);
                 this.myMove()
             } else {

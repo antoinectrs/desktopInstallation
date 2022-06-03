@@ -24,10 +24,11 @@ class APP {
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
 
-            // this.vocalPoint.forEach((element, index) => {
-            // element.sample.playSample(0);
+            this.vocalPoint.forEach((element, index) => {
+            element.sample.playSample(0);
             // element.sample.initOrientation(this.preset[index].binaural);
-            // });
+            // element.sample.render(5000, 1);
+            });
             this.point.forEach((element, index) => {
                 element.sample.playSample(0);
                 element.sample.initOrientation(this.preset[index].binaural);
@@ -38,7 +39,7 @@ class APP {
 
             // this.vocalPoint.sample.playSample(0);
             // this.vocalPoint.sample.initOrientation(0);
-
+    
             this.demo.preset = this.preset;
             this.demo.checkRoad();
         });
@@ -60,11 +61,9 @@ class APP {
     }
     initVocals() {
         setTimeout(() => {
-            this.preset[0].voice.forEach(e => {
-                console.log(e);
-            });
+            
             this.vocalPoint = this.preset[0].voice.map(e => {
-                return { "sample": new Sample(e, false) }
+                return { "sample": new Sample(e.content, false) }
             })
             this.vocalPoint.forEach(element => {
                 element.sample.requestTrack()
