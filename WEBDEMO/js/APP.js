@@ -1,5 +1,6 @@
 class APP {
     constructor(statut) {
+        this.startListening = false;
         this.statut = statut;
         // this.mobile,
         this.demo = null;
@@ -23,30 +24,24 @@ class APP {
     }
     dom(target = "#playTrack", trigger = 'click') {
         document.querySelector(target).addEventListener(trigger, (event) => {
+            if (this.startListening == false) this.activeApp()
 
-            this.vocalPoint.forEach((element, index) => {
-            element.sample.playSample(0);
-            // element.sample.initOrientation(this.preset[index].binaural);
-            // element.sample.render(5000, 1);
-            });
-            this.point.forEach((element, index) => {
-                element.sample.playSample(0);
-                element.sample.initOrientation(this.preset[index].binaural);
-            });
-
-            this.noPoint.sample.playSample(0);
-            this.noPoint.sample.initOrientation(0);
-
-            // this.vocalPoint.sample.playSample(0);
-            // this.vocalPoint.sample.initOrientation(0);
-    
-            this.demo.preset = this.preset;
-            this.demo.checkRoad();
+            this.startListening=true;
         });
     }
-
-
-
+    activeApp() {
+        this.vocalPoint.forEach((element, index) => {
+            element.sample.playSample(0);
+        });
+        this.point.forEach((element, index) => {
+            element.sample.playSample(0);
+            element.sample.initOrientation(this.preset[index].binaural);
+        });
+        this.noPoint.sample.playSample(0);
+        this.noPoint.sample.initOrientation(0);
+        this.demo.preset = this.preset;
+        this.demo.checkRoad();
+    }
     initPoint(musicList, preset) {
         this.point = musicList.map(function (music, preset) {
             return { "sample": new Sample(music, true) }// "graphic": new Circle(),// "space": new Space(2),
@@ -61,14 +56,14 @@ class APP {
     }
     initVocals() {
         setTimeout(() => {
-            
+
             this.vocalPoint = this.preset[0].voice.map(e => {
                 return { "sample": new Sample(e.content, false) }
             })
             this.vocalPoint.forEach(element => {
                 element.sample.requestTrack()
             });
-            this.demo.vocalPoint =  this.vocalPoint;
+            this.demo.vocalPoint = this.vocalPoint;
             console.log(this.vocalPoint);
         }, 500);
 
